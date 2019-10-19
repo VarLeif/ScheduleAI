@@ -1,0 +1,32 @@
+{
+    "teachers": [
+        {
+            "code": 1,
+            "name": "John Doe",
+            "maxHourDay": 4,
+            "maxHourWeek": 20,
+            "lessons": [
+                {"code": 1},
+                {"code": 3}
+            ]
+        },
+        {
+            "code": 2,
+            "name": "Mary Sue",
+            "maxHourDay": 6,
+            "maxHourWeek": 14,
+            "lessons": [
+                {"code": 1}
+            ]
+        },
+        {
+            "code": 3,
+            "name": "Stuart Little",
+            "maxHourDay": 2,
+            "maxHourWeek": 24,
+            "lessons": [
+                {"code": 3}
+            ]
+        }
+    ]
+}

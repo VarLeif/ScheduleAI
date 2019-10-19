@@ -1,0 +1,22 @@
+{
+    "lessons": [
+        {
+            "code": 1,
+            "name": "Algebra",
+            "class_year": "A",
+            "hours": 12
+        },
+        {
+            "code": 2,
+            "name": "Science",
+            "class_year": "A",
+            "hours": 6
+        },
+        {
+            "code": 3,
+            "name": "English Philosophy",
+            "class_year": "B",
+            "hours": 4
+        }
+    ]
+}

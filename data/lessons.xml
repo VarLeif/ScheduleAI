@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lesson>
+    <code>1</code>
+    <name>Algebra</name>
+    <class_year>A</class_year>
+    <hours>12</hours>
+</lesson>
+<lesson>
+    <code>2</code>
+    <name>Science</name>
+    <class_year>A</class_year>
+    <hours>6</hours>
+</lesson>
+<lesson>
+    <code>3</code>
+    <name>English Philosophy</name>
+    <class_year>C</class_year>
+    <hours>4</hours>
+</lesson>
+
