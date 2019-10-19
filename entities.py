@@ -29,3 +29,33 @@ class teacher:
     def lessonCodes(self):
         for code in self.lessons:
             print("Code: ", code)
+
+class Session:
+
+    def __init__(self, hour, lesson_id, teacher_id):
+        self.hour = hour
+        self.lesson_id = lesson_id
+        self.teacher_id = teacher_id
+
+class Day:
+
+    def __init__(self, noDay):
+        self.noDay = noDay
+        self.Sessions = []
+        self.total_hours = 0
+
+    def addSession(self, session):
+        self.Sessions.append(session)
+        self.total_hours = self.total_hours + 1
+
+class Tmima:
+
+    def __init__(self, id, year):
+        self.id = id
+        self.year = year
+        self.Days = []
+
+
+    def addDay(self, day):
+        self.Days.append(day)
+        
