@@ -50,12 +50,21 @@ class Day:
 
 class Tmima:
 
-    def __init__(self, id, year):
+    def __init__(self, id):
         self.id = id
-        self.year = year
         self.Days = []
 
 
     def addDay(self, day):
         self.Days.append(day)
+
+class Klass:
+
+    def __init__(self,year, noTmima):
+        self.year = year
+        self.hoursWeek = 0
+        self.lessonsCount = 0
+        self.tmimata = []
         
+        for i in range(0, noTmima):
+            self.tmimata.append(Tmima(i+1))
