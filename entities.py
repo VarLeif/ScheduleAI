@@ -2,15 +2,23 @@
 
 class lesson:
 
-    def __init__(self, code, name, class_year, hours):
+    def __init__(self, code, name, classYear, hours):
         self.code = code
         self.name = name
-        self.class_year = class_year
+        self.classYear = classYear
         self.hours = hours
 
     def out(self):
-        print("Lesson: ", self.name, "\tCode: ", self.code)
+        print("Μάθημα:", self.name,"\n\tΚωδικός μαθήματος:", self.code, "\n\tΈτος:", self.classYear, "\n\tΏρες:", self.hours)
 
+    def toObject(self):
+        lessonObj = {
+            "code": self.code,
+            "name": self.name,
+            "classYear": self.classYear,
+            "hours": self.hours
+        }
+        return lessonObj
 class teacher:
 
     def __init__(self, code, name, maxHourDay, maxHourWeek):

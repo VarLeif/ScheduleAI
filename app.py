@@ -1,0 +1,66 @@
+import msvcrt
+
+from entities import *
+import dataParser
+
+lessons_filepath = './data/lessons.json'
+teachers_filepath = './data/teachers.json'
+teachers = dataParser.readTeacherJSON(teachers_filepath)
+lessons = dataParser.readLessonJSON(lessons_filepath)
+running = True
+
+
+def printInstructions():
+    print("**************************************")
+    print("Τι θέλετε να κάνετε; ")
+    print("\t 1. Προσθήκη νέου μαθήματος")
+    print("\t 2. Προσθήκη νέου καθηγητή")
+    print("\t 3. Δημιουργία ωρολογιακού προγράμματος")
+    print("\t 4. Αποθήκευση κατάστασης προγράμματος")
+    print("\t 5. Εκτύπωση μαθημάτων")
+    print("\t 6. Εκτύπωση καθηγητών")
+    print("\t 7. Έξοδος με αποθήκευση")
+    print("\t 8. Έξοδος χωρίς αποθήκευση")
+    print("**************************************")
+
+
+def createLesson():
+    nextCode = lessons[len(lessons)].code + 1  # increment last id!
+    print('Παρακαλώ εισάγετε το όνομα του μαθήματος: ')
+    lessonName = input()
+    print('Παρακαλώ εισάγετε το έτος του μαθήματος (1-3)')
+    lessonYear = int(input())
+    while lessonYear < 1 or lessonYear > 3:
+        print('Παρακαλώ εισάγετε το έτος του μαθήματος (1-3)')
+        lessonYear = int(input())
+    print('Παρακαλώ εισάγετε τις εβδομαδιαίες ώρες του μαθήματος')
+    lessonHours = int(input())
+    while lessonHours < 1 or lessonHours > 10:
+        print('Παρακαλώ εισάγετε τις εβδομαδιαίες ώρες του μαθήματος')
+        lessonHours = int(input())
+    newLesson =  lesson(nextCode, lessonName, lessonYear, lessonHours);
+
+    return newLesson
+
+
+while running:
+    printInstructions()
+    s = int(input())
+    if s == 1:
+        newLesson = createLesson()
+        lessons[newLesson.code] = newLesson
+    elif s == 4:
+        dataParser.saveLessonJSON(lessons, lessons_filepath)
+    elif s == 5:
+        for x in lessons:
+            lessons[x].out()
+    elif s == 6:
+        for teacher in teachers:
+            print(teacher)
+    elif s == 8:
+        dataParser.saveLessonJSON(lessons, lessons_filepath)
+        running = False
+        break
+    elif s == 8:
+        running = False
+        break
