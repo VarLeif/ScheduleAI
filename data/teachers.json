@@ -6,8 +6,12 @@
             "maxHourDay": 4,
             "maxHourWeek": 20,
             "lessons": [
-                {"code": 1},
-                {"code": 3}
+                {
+                    "code": 1
+                },
+                {
+                    "code": 3
+                }
             ]
         },
         {
@@ -16,7 +20,9 @@
             "maxHourDay": 6,
             "maxHourWeek": 14,
             "lessons": [
-                {"code": 1}
+                {
+                    "code": 1
+                }
             ]
         },
         {
@@ -25,7 +31,9 @@
             "maxHourDay": 2,
             "maxHourWeek": 24,
             "lessons": [
-                {"code": 3}
+                {
+                    "code": 3
+                }
             ]
         }
     ]

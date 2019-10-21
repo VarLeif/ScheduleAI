@@ -1,6 +1,6 @@
 # Entities used for the production of the schedule
 
-class lesson:
+class Lesson:
 
     def __init__(self, code, name, classYear, hours):
         self.code = code
@@ -19,7 +19,7 @@ class lesson:
             "hours": self.hours
         }
         return lessonObj
-class teacher:
+class Teacher:
 
     def __init__(self, code, name, maxHourDay, maxHourWeek):
         self.code = code
@@ -37,6 +37,20 @@ class teacher:
     def lessonCodes(self):
         for code in self.lessons:
             print("Code: ", code)
+
+    def toObject(self):
+        data = {}
+        data['code'] = self.code
+        data['name'] = self.name
+        data['maxHourDay'] = self.maxHourDay
+        data['maxHourWeek'] = self.maxHourWeek
+        data["lessons"] = []
+        for code in self.lessons:
+            data["lessons"].append({"code": code})
+
+        return data
+        
+        
 
 class Session:
 
@@ -73,6 +87,6 @@ class Klass:
         self.hoursWeek = 0
         self.lessonsCount = 0
         self.tmimata = []
-        
+
         for i in range(0, noTmima):
             self.tmimata.append(Tmima(i+1))

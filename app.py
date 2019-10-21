@@ -1,7 +1,6 @@
-import msvcrt
-
 from entities import *
 import dataParser
+import util
 
 lessons_filepath = './data/lessons.json'
 teachers_filepath = './data/teachers.json'
@@ -38,7 +37,7 @@ def createLesson():
     while lessonHours < 1 or lessonHours > 10:
         print('Παρακαλώ εισάγετε τις εβδομαδιαίες ώρες του μαθήματος')
         lessonHours = int(input())
-    newLesson =  lesson(nextCode, lessonName, lessonYear, lessonHours);
+    newLesson =  Lesson(nextCode, lessonName, lessonYear, lessonHours)
 
     return newLesson
 
@@ -51,16 +50,20 @@ while running:
         lessons[newLesson.code] = newLesson
     elif s == 4:
         dataParser.saveLessonJSON(lessons, lessons_filepath)
+        dataParser.saveTeacherJSON(teachers, teachers_filepath)
     elif s == 5:
         for x in lessons:
             lessons[x].out()
     elif s == 6:
         for teacher in teachers:
             print(teacher)
-    elif s == 8:
+    elif s == 7:
         dataParser.saveLessonJSON(lessons, lessons_filepath)
+        dataParser.saveTeacherJSON(teachers, teachers_filepath)
         running = False
         break
     elif s == 8:
         running = False
         break
+
+util.getKlassHours(lessons)
