@@ -17,6 +17,18 @@
             "name": "English Philosophy",
             "classYear": "B",
             "hours": 4
+        },
+        {
+            "code": 4,
+            "name": "Γεωμετρια",
+            "classYear": "A",
+            "hours": 4
+        },
+        {
+            "code": 5,
+            "name": "Γυμναστικη",
+            "classYear": "B",
+            "hours": 2
         }
     ]
 }

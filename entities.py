@@ -27,6 +27,7 @@ class Teacher:
         self.maxHourDay = maxHourDay
         self.maxHourWeek = maxHourWeek
         self.lessons = set()
+        self.hoursAssigned = 0
 
     def addLesson(self, lesson_code):
         self.lessons.add(lesson_code)

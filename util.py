@@ -10,21 +10,18 @@ def getYear(ly):
 
 """
     klassHours [
-        [sum of klass' hours] [sum of lessons] # for class A
-        [sum of klass' hours] [sum of lessons] # for class B
-        [sum of klass' hours] [sum of lessons] # for class C
+        [list of lessons of klass] [sum of klass' hours] [sum of lessons] # for class A
+        [list of lessons of klass] [sum of klass' hours] [sum of lessons] # for class B
+        [list of lessons of klass] [sum of klass' hours] [sum of lessons] # for class C
     ]
 """
 def getKlassHours(lessons):
-    klassHours = [[0, 0], [0, 0], [0, 0]]
+    klassHours = [[[], 0, 0], [[], 0, 0], [[], 0, 0]]
     for key in lessons:
         year = getYear(lessons[key].classYear)
-        klassHours[year][0] = klassHours[year][0] + lessons[key].hours
-        klassHours[year][1] = klassHours[year][1] + 1
+        klassHours[year][0].append(lessons[key])
+        klassHours[year][1] = klassHours[year][1] + lessons[key].hours
+        klassHours[year][2] = klassHours[year][2] + 1
     
-
-    print("Klass A: ", klassHours[0])
-    print("Klass B: ",klassHours[1])
-    print("Klass C: ",klassHours[2])
 
 

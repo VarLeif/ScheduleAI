@@ -27,11 +27,11 @@ def createLesson():
     nextCode = lessons[len(lessons)].code + 1  # increment last id!
     print('Παρακαλώ εισάγετε το όνομα του μαθήματος: ')
     lessonName = input()
-    print('Παρακαλώ εισάγετε το έτος του μαθήματος (1-3)')
-    lessonYear = int(input())
-    while lessonYear < 1 or lessonYear > 3:
-        print('Παρακαλώ εισάγετε το έτος του μαθήματος (1-3)')
-        lessonYear = int(input())
+    print('Παρακαλώ εισάγετε το έτος του μαθήματος (A, B, C)')
+    lessonYear = input()
+    while lessonYear not in ['A', 'B', 'C']:
+        print('Παρακαλώ εισάγετε το έτος του μαθήματος (A, B, C)')
+        lessonYear = input()
     print('Παρακαλώ εισάγετε τις εβδομαδιαίες ώρες του μαθήματος')
     lessonHours = int(input())
     while lessonHours < 1 or lessonHours > 10:
