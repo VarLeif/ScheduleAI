@@ -7,7 +7,7 @@ import json
 
 def readLessonJSON(filepath):
     dict = {}
-    with open(filepath) as json_file:
+    with open(filepath, encoding = "utf-8") as json_file:
         data = json.load(json_file)
         for p in data['lessons']:
             obj = Lesson(p['code'], p['name'], p['classYear'], p['hours'])
@@ -17,7 +17,7 @@ def readLessonJSON(filepath):
 
 def readTeacherJSON(filepath):
     dict = {}
-    with open(filepath) as json_file:
+    with open(filepath, encoding = "utf-8") as json_file:
         data = json.load(json_file)
         for p in data['teachers']:
             obj = Teacher(p['code'], p['name'], p['maxHourDay'], p['maxHourWeek'])

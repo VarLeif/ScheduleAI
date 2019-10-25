@@ -4,6 +4,7 @@ from entities import *
 import dataParser
 # Utility functions to manipulate our data
 import util
+from customDataStructure import State, Node
 
 lessons_filepath = './data/lessons.json'
 teachers_filepath = './data/teachers.json'
@@ -76,10 +77,6 @@ while running:
         running = False
         break
 
-<<<<<<< Updated upstream
-util.getKlassHours(lessons)
-=======
-util.getKlassHours(lessons)
 
 x = State(5)
 x.setXYZ(0,2,3,lessons[1])
@@ -93,4 +90,6 @@ start.addChild(Node(x, start))
 print(start)
 print(start.children[0].parent)
 print(start.children)
->>>>>>> Stashed changes
+
+print(start.children)
+
