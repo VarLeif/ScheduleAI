@@ -1,13 +1,20 @@
+import random
+
 from entities import Lesson
 
 def getYear(ly):
-    if ly == "A":
+    if ly == "A" or ly == "Α":
         return 0
-    elif ly == "B":
+    elif ly == "B" or ly=="Β":
         return 1
-    elif ly == "C":
+    elif ly == "C" or ly =="Γ":
         return 2
 
+def generateAvailDays(days, randomDay):
+    availDayRange = days.copy()
+    availDayRange.remove(randomDay)
+    randomDay = random.choice(availDayRange)
+    return randomDay
 """
     klassHours [
         [list of lessons of klass] [sum of klass' hours] [sum of lessons] # for class A
@@ -22,6 +29,8 @@ def getKlassHours(lessons):
         klassHours[year][0].append(lessons[key])
         klassHours[year][1] = klassHours[year][1] + lessons[key].hours
         klassHours[year][2] = klassHours[year][2] + 1
+
+    return klassHours
     
 # Check if two Lesson elements are duplicates    
 def eqDuplicateLesson(ele1, ele2):

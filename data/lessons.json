@@ -2,33 +2,309 @@
     "lessons": [
         {
             "code": 1,
-            "name": "Algebra",
+            "name": "Νεολληνική Γλώσσα",
             "classYear": "A",
-            "hours": 12
+            "hours": 3
         },
         {
             "code": 2,
-            "name": "Science",
+            "name": "Φυσική Αγωγή",
             "classYear": "A",
-            "hours": 6
+            "hours": 2
         },
         {
             "code": 3,
-            "name": "English Philosophy",
-            "classYear": "B",
-            "hours": 4
+            "name": "Αγγλικά",
+            "classYear": "Α",
+            "hours": 2
         },
         {
             "code": 4,
-            "name": "Γεωμετρια",
+            "name": "Αρχαία Ελληνική Γλώσσα",
             "classYear": "A",
-            "hours": 4
+            "hours": 2
         },
         {
             "code": 5,
-            "name": "Γυμναστικη",
+            "name": "Μαθηματικά",
+            "classYear": "Α",
+            "hours": 4
+        },
+        {
+            "code": 6,
+            "name": "Μουσική",
+            "classYear": "A",
+            "hours": 1
+        },
+        {
+            "code": 7,
+            "name": "Βιολογία",
+            "classYear": "A",
+            "hours": 1
+        },
+        {
+            "code": 8,
+            "name": "Οικιακή Οικονομία",
+            "classYear": "Α",
+            "hours": 2
+        },
+        {
+            "code": 9,
+            "name": "Ιστορία",
+            "classYear": "A",
+            "hours": 2
+        },
+        {
+            "code": 10,
+            "name": "Καλλιτεχνικά",
+            "classYear": "Α",
+            "hours": 1
+        },
+        {
+            "code": 11,
+            "name": "Γσλλικά/Γερμανικά",
+            "classYear": "A",
+            "hours": 2
+        },
+        {
+            "code": 12,
+            "name": "Πληροφορική/Τεχνολογία",
+            "classYear": "Α",
+            "hours": 2
+        },
+        {
+            "code": 13,
+            "name": "Φυσική",
+            "classYear": "A",
+            "hours": 1
+        },
+        {
+            "code": 14,
+            "name": "Θρησκευτικά",
+            "classYear": "A",
+            "hours": 2
+        },
+        {
+            "code": 15,
+            "name": "Γεωγραφία",
+            "classYear": "Α",
+            "hours": 1
+        },
+        {
+            "code": 16,
+            "name": "Νεολληνική Λογοτεχνία",
+            "classYear": "Α",
+            "hours": 2
+        },
+        {
+            "code": 17,
+            "name": "Αρχαία Ελληνική Γραμματεία",
+            "classYear": "Α",
+            "hours": 2
+        },
+        {
+            "code": 18,
+            "name": "Αγγλικά",
             "classYear": "B",
             "hours": 2
+        },
+        {
+            "code": 19,
+            "name": "Αρχαία Ελληνική Γλώσσα",
+            "classYear": "B",
+            "hours": 2
+        },
+        {
+            "code": 20,
+            "name": "Θρησκευτικά",
+            "classYear": "B",
+            "hours": 2
+        },
+        {
+            "code": 21,
+            "name": "Φυσική",
+            "classYear": "B",
+            "hours": 2
+        },
+        {
+            "code": 22,
+            "name": "Αρχαία Ελληνική Γραμματεία",
+            "classYear": "B",
+            "hours": 2
+        },
+        {
+            "code": 23,
+            "name": "Μαθηματικά",
+            "classYear": "B",
+            "hours": 4
+        },
+        {
+            "code": 24,
+            "name": "Νεολληνική Γλώσσα",
+            "classYear": "B",
+            "hours": 2
+        },
+        {
+            "code": 25,
+            "name": "Γεωγραφία",
+            "classYear": "B",
+            "hours": 2
+        },
+        {
+            "code": 26,
+            "name": "Πληροφορική/Τεχνολογία",
+            "classYear": "B",
+            "hours": 2
+        },
+        {
+            "code": 27,
+            "name": "Νεοελληνική Λογοτεχνία",
+            "classYear": "B",
+            "hours": 2
+        },
+        {
+            "code": 28,
+            "name": "Γαλλικά/Γερμανικά",
+            "classYear": "B",
+            "hours": 2
+        },
+        {
+            "code": 29,
+            "name": "Καλλιτεχνικά",
+            "classYear": "B",
+            "hours": 1
+        },
+        {
+            "code": 30,
+            "name": "Ιστορία",
+            "classYear": "B",
+            "hours": 2
+        },
+        {
+            "code": 31,
+            "name": "Βιολογία",
+            "classYear": "B",
+            "hours": 1
+        },
+        {
+            "code": 32,
+            "name": "Μουσική",
+            "classYear": "B",
+            "hours": 1
+        },
+        {
+            "code": 33,
+            "name": "Φυσική Αγωγή",
+            "classYear": "B",
+            "hours": 2
+        },
+        {
+            "code": 34,
+            "name": "Χημεία",
+            "classYear": "B",
+            "hours": 1
+        },
+        {
+            "code": 35,
+            "name": "Πληροφορική/Τεχνολογία",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 36,
+            "name": "Αρχαία Ελληνική Γραμματεία",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 37,
+            "name": "Καλλιτεχνικά",
+            "classYear": "C",
+            "hours": 1
+        },
+        {
+            "code": 38,
+            "name": "Βιολογία",
+            "classYear": "C",
+            "hours": 1
+        },
+        {
+            "code": 39,
+            "name": "Φυσική Αγωγή",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 40,
+            "name": "Μαθηματικά",
+            "classYear": "C",
+            "hours": 4
+        },
+        {
+            "code": 41,
+            "name": "Ιστορία",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 42,
+            "name": "Αρχαία Ελληνική Γλώσσα",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 43,
+            "name": "Θρησκευτικά",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 44,
+            "name": "Κοινωνική Πολιτική Αγωγή",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 45,
+            "name": "Αγγλικά",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 46,
+            "name": "Νεολληνική Γλώσσα",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 47,
+            "name": "Γαλλικά/Γερμανικά",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 48,
+            "name": "Φυσική",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 49,
+            "name": "Νεολληνική Λογοτεχνία",
+            "classYear": "C",
+            "hours": 2
+        },
+        {
+            "code": 50,
+            "name": "Χημεία",
+            "classYear": "C",
+            "hours": 1
+        },
+        {
+            "code": 51,
+            "name": "Μουσική",
+            "classYear": "C",
+            "hours": 1
         }
     ]
 }

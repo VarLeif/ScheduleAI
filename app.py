@@ -84,12 +84,12 @@ x.setXYZ(0,1,2, lessons[2])
 
 isEquals = x.specificOut(0,2,3).classYear == x.specificOut(0,1,2).classYear
 
-start = Node(x, "None")
-start.addChild(Node(x, start))
-start.addChild(Node(x, start))
-print(start)
-print(start.children[0].parent)
-print(start.children)
-
-print(start.children)
+# start = Node(x, "None")
+# start.addChild(Node(x, start))
+# start.addChild(Node(x, start))
+# print(start)
+# print(start.children[0].parent)
+# print(start.children)
+#
+# print(start.children)
 
