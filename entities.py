@@ -7,6 +7,7 @@ class Lesson:
         self.name = name
         self.classYear = classYear
         self.hours = hours
+        self.totalTmimaHours = 0
         self.teachers = []
 
     def out(self):
@@ -36,11 +37,14 @@ class Teacher:
         self.lessons.add(lesson_code)
 
     def out(self):
-        print("Teacher: ", self.name, "Code: ", self.code)
+        print("Teacher: ", self.name, "Code: ", self.code, "totalLessons: ", self.getLessonsSum())
 
     def lessonCodes(self):
         for code in self.lessons:
             print("Code: ", code)
+
+    def getLessonsSum(self):
+        return len(self.lessons);
 
     def toObject(self):
         data = {}
@@ -95,3 +99,13 @@ class Klass:
 
         for i in range(0, noTmima):
             self.tmimata.append(Tmima(i + 1))
+
+class AssignedLesson:
+
+    def __init__(self,lessonCode, teacherCode, tmimaCode):
+        self.lessonCode = lessonCode
+        self.teacherCode = teacherCode
+        self.tmimaCode = tmimaCode
+
+    def out(self):
+        print('Κωδικός: ', self.lessonCode, ' Καθηγητής: ', self.teacherCode, ' Τμήμα: ', self.tmimaCode)

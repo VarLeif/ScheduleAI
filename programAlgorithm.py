@@ -1,20 +1,64 @@
 import random
-
 import numpy as np
-
 from app import *
 import util
 
+amountOfTmimata = [3, 3, 3]
+klassHours = util.getKlassHours(lessons)
+sumLessonsSessions = klassHours[0][2] * amountOfTmimata[0] + klassHours[1][2] * amountOfTmimata[1] + klassHours[2][2] * \
+                     amountOfTmimata[2]
+lessonsAssigned = np.zeros(sumLessonsSessions, dtype=object) # lesson_code, teacher, tmima(year)
 
+# initialize array that holds lesson/teacher assignments! :)
+def populateLessonsAsigned():
+    index = 0
+    for key in lessons:
+
+        lessonYear = util.getYear(lessons[key].classYear)
+        endFor = sum(amountOfTmimata[:lessonYear + 1])
+        startFor = endFor - amountOfTmimata[lessonYear]
+        for x in range(startFor, endFor):
+            lessonsAssigned[index] = AssignedLesson(lessons[key].code, -1, x)
+            index = index + 1
+
+# create a list of each lesson's available teachers
 def setLessonsTeachers():
     for key in teachers:
         for jey in lessons:
             if lessons[jey].code in teachers[key].lessons:
                 lessons[jey].teachers.append(teachers[key].code)
 
+# calculate how many hours are needed for each lesson for all tmimata
+def countLessonsTotalHours():
+    for key in lessons:
+        lessons[key].totalTmimaHours = amountOfTmimata[util.getYear(lessons[key].classYear)] * lessons[key].hours
 
-setLessonsTeachers()
+def assignSingleLessonTeachers():
+    for key in lessons:
+        if len(lessons[key].teachers) == 1:
+            teacherCode = lessons[key].teachers[0]
 
+            teachers[teacherCode].hoursAssigned = teachers[teacherCode].hoursAssigned + lessons[key].totalTmimaHours
+
+            for x in range(0, len(lessonsAssigned)):
+
+                if lessonsAssigned[x].lessonCode == lessons[key].code:
+                    lessonsAssigned[x].teacherCode = teacherCode
+                    # performance improvement, avoid some repetitions :)
+                    if x != len(lessonsAssigned) and lessonsAssigned[x + 1].lessonCode != lessons[key].code:
+                        break
+
+            if (teachers[teacherCode].maxHourWeek < teachers[teacherCode].hoursAssigned):
+                print('Η εισαγωγή των δεδομένων που έχετε κάνει είναι λανθασμένη. better use ΕΣΠΑ')
+                print('ERROR => ', teachers[teacherCode].name, 'Ώρες: ', teachers[teacherCode].hoursAssigned)
+                exit()
+
+teachersCopy = list(teachers.values())
+teachersCopy.sort(key=lambda x: x.getLessonsSum(), reverse=False)
+
+def assignLessonTeachers():
+    for x in range(0, len(teachersCopy)):
+        teachersCopy[x].out()
 
 # Check if random hour is in last 2 hours of each day.
 # IF it's true, try to find an earlier hour available on the same day
@@ -38,13 +82,13 @@ def getHour(array, year, randomDay, randomHour):
 
 def programAlgorithm():
     usedLessonKeys = set()
-    array = np.zeros((3, 5, 7), dtype=object)
+    array = np.zeros((sum(amountOfTmimata), 5, 7), dtype=object)
     sumLessons = len(lessons)
     days = [0, 1, 2, 3, 4]
 
     for i in range(0, sumLessons):
         randomer = random.choice(list(lessons.keys()))
-        #change the while loop to get from a set that pops them (randomly)
+        # change the while loop to get from a set that pops them (randomly)
         while randomer in usedLessonKeys:
             randomer = random.choice(list(lessons.keys()))
 
@@ -81,28 +125,34 @@ def programAlgorithm():
             array[year][randomDay][randomHour] = lessons[randomer].name
             availHours = availHours - 1
 
-    print(array)
+    # print(array)
     return array
 
+setLessonsTeachers()
+countLessonsTotalHours()
+populateLessonsAsigned()
+assignSingleLessonTeachers()
+assignLessonTeachers()
+for x in range(0, len(lessonsAssigned)):
+    lessonsAssigned[x].out()
 programAlgorithm()
-"""
-countedZeros = 0
-countedInstances = 0
 
-for x in range(0, 1000):
-    zeros = 0
-    curArray = programAlgorithm()
-
-    for i in range(0, 3):
-        for j in range(0,4):
-            for k in range(0,4):
-                if curArray[i][j][k] == 0:
-                    zeros = zeros+1
-    
-    countedZeros = countedZeros + zeros
-    if zeros > 0:
-        countedInstances = countedInstances + 1
-
-print("Counted zeroes", countedZeros)
-print("Counted Instances", countedInstances)
-"""
+# countedZeros = 0
+# countedInstances = 0
+#
+# for x in range(0, 1000):
+#     zeros = 0
+#     curArray = programAlgorithm()
+#
+#     for i in range(0, 3):
+#         for j in range(0,4):
+#             for k in range(0,4):
+#                 if curArray[i][j][k] == 0:
+#                     zeros = zeros+1
+#
+#     countedZeros = countedZeros + zeros
+#     if zeros > 0:
+#         countedInstances = countedInstances + 1
+#
+# print("Counted zeroes", countedZeros)
+# print("Counted Instances", countedInstances)

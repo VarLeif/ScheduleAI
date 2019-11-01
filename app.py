@@ -10,7 +10,7 @@ lessons_filepath = './data/lessons.json'
 teachers_filepath = './data/teachers.json'
 teachers = dataParser.readTeacherJSON(teachers_filepath)
 lessons = dataParser.readLessonJSON(lessons_filepath)
-running = True
+running = False #show instructions? :D
 
 """ 
     */ Testing duplicate functions
