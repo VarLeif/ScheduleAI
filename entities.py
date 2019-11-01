@@ -1,3 +1,4 @@
+from math import factorial
 # Entities used for the production of the schedule
 
 class Lesson:
@@ -32,6 +33,7 @@ class Teacher:
         self.maxHourWeek = maxHourWeek
         self.lessons = set()
         self.hoursAssigned = 0
+        self.lessonsAssigned = 0
 
     def addLesson(self, lesson_code):
         self.lessons.add(lesson_code)
@@ -44,7 +46,19 @@ class Teacher:
             print("Code: ", code)
 
     def getLessonsSum(self):
-        return len(self.lessons);
+        return len(self.lessons)
+
+    def getRemainingHour(self):
+        return self.maxHourWeek - self.hoursAssigned
+
+    # WEIGHT: THE BIGGER, THE BETTER (16 better than 15)
+    # Positive:
+    # - More remaining hours (flexibility)
+    # Negative:
+    # - Amount of subjects (He's more flexible for later)
+    # - hoursOfLesson -> gives some randomness
+    def getCurrWeigh(self, hoursOfLesson):
+        return self.getRemainingHour() / ((len(self.lessons) * hoursOfLesson) * factorial(self.lessonsAssigned))
 
     def toObject(self):
         data = {}
@@ -57,6 +71,10 @@ class Teacher:
             data["lessons"].append({"code": code})
 
         return data
+
+    def clear(self):
+        self.hoursAssigned=0
+        self.lessonsAssigned=0
 
 
 class Session:

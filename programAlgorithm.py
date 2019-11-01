@@ -1,5 +1,7 @@
+import copy
 import random
 import numpy as np
+
 from app import *
 import util
 
@@ -7,7 +9,8 @@ amountOfTmimata = [3, 3, 3]
 klassHours = util.getKlassHours(lessons)
 sumLessonsSessions = klassHours[0][2] * amountOfTmimata[0] + klassHours[1][2] * amountOfTmimata[1] + klassHours[2][2] * \
                      amountOfTmimata[2]
-lessonsAssigned = np.zeros(sumLessonsSessions, dtype=object) # lesson_code, teacher, tmima(year)
+lessonsAssigned = np.zeros(sumLessonsSessions, dtype=object)
+
 
 # initialize array that holds lesson/teacher assignments! :)
 def populateLessonsAsigned():
@@ -21,6 +24,7 @@ def populateLessonsAsigned():
             lessonsAssigned[index] = AssignedLesson(lessons[key].code, -1, x)
             index = index + 1
 
+
 # create a list of each lesson's available teachers
 def setLessonsTeachers():
     for key in teachers:
@@ -28,10 +32,12 @@ def setLessonsTeachers():
             if lessons[jey].code in teachers[key].lessons:
                 lessons[jey].teachers.append(teachers[key].code)
 
+
 # calculate how many hours are needed for each lesson for all tmimata
 def countLessonsTotalHours():
     for key in lessons:
         lessons[key].totalTmimaHours = amountOfTmimata[util.getYear(lessons[key].classYear)] * lessons[key].hours
+
 
 def assignSingleLessonTeachers():
     for key in lessons:
@@ -39,26 +45,73 @@ def assignSingleLessonTeachers():
             teacherCode = lessons[key].teachers[0]
 
             teachers[teacherCode].hoursAssigned = teachers[teacherCode].hoursAssigned + lessons[key].totalTmimaHours
+            teachers[teacherCode].lessonsAssigned = teachers[teacherCode].lessonsAssigned
+
+            if teachers[teacherCode].maxHourWeek < teachers[teacherCode].hoursAssigned:
+                print('Η εισαγωγή των δεδομένων που έχετε κάνει είναι λανθασμένη. better use ΕΣΠΑ')
+                print('ERROR => ', teachers[teacherCode].name, 'Ώρες: ', teachers[teacherCode].hoursAssigned)
+                exit()
 
             for x in range(0, len(lessonsAssigned)):
 
                 if lessonsAssigned[x].lessonCode == lessons[key].code:
                     lessonsAssigned[x].teacherCode = teacherCode
                     # performance improvement, avoid some repetitions :)
-                    if x != len(lessonsAssigned) and lessonsAssigned[x + 1].lessonCode != lessons[key].code:
+                    if x + 1 != len(lessonsAssigned) and lessonsAssigned[x + 1].lessonCode != lessons[key].code:
                         break
 
-            if (teachers[teacherCode].maxHourWeek < teachers[teacherCode].hoursAssigned):
-                print('Η εισαγωγή των δεδομένων που έχετε κάνει είναι λανθασμένη. better use ΕΣΠΑ')
-                print('ERROR => ', teachers[teacherCode].name, 'Ώρες: ', teachers[teacherCode].hoursAssigned)
-                exit()
-
-teachersCopy = list(teachers.values())
-teachersCopy.sort(key=lambda x: x.getLessonsSum(), reverse=False)
 
 def assignLessonTeachers():
-    for x in range(0, len(teachersCopy)):
-        teachersCopy[x].out()
+    np.random.shuffle(lessonsAssigned)
+
+    for i in range(0, len(lessonsAssigned)):
+        if lessonsAssigned[i].teacherCode == -1:
+            lessonCode = lessonsAssigned[i].lessonCode
+            weightList = np.zeros(len(lessons[lessonCode].teachers))
+            index = 0
+            totalWeight = 0
+            for key in lessons[lessonCode].teachers:
+                weight = 0
+                if teachers[key].getRemainingHour() >= lessons[key].hours:
+                    weight = teachers[key].getCurrWeigh(lessons[key].hours)
+
+                weightList[index] = weight
+                totalWeight = totalWeight + weight
+                index = index + 1
+
+            weightList = weightList / totalWeight
+            chosenTeacher = np.random.choice(lessons[lessonCode].teachers, p=weightList)
+            lessonsAssigned[i].teacherCode = chosenTeacher
+            teachers[chosenTeacher].hoursAssigned = teachers[chosenTeacher].hoursAssigned + lessons[lessonCode].hours
+            teachers[chosenTeacher].lessonsAssigned = teachers[chosenTeacher].lessonsAssigned + 1
+
+    for key in teachers:
+        if teachers[key].hoursAssigned == 0:
+            # tWLM = teachers with lessons match
+            tWLM = set()
+            for t in teachers:
+                if teachers[t] == teachers[key]:
+                    continue
+                if len(teachers[t].lessons.intersection(teachers[key].lessons)) > 0:
+                    tWLM.add(teachers[t].code)
+
+            print('Teacher: ', teachers[key].name, 'Matches: ', tWLM)
+            maxHours = 0
+            WHOIS = -1
+            for k in tWLM:
+                if maxHours < teachers[k].hoursAssigned:
+                    maxHours = teachers[k].hoursAssigned
+                    WHOIS = k
+                print('Teacher: ', teachers[k].name, ' HoursAssigned: ', teachers[k].hoursAssigned)
+            for k in tWLM:
+                if maxHours == teachers[k].hoursAssigned:
+                    if WHOIS != k and teachers[WHOIS].lessonsAssigned < teachers[k].lessonsAssigned:
+                        WHOIS = k
+
+            print(teachers[WHOIS].name)
+
+            #TODO: PAIRNOYME TO ENA TRITO (STROGGYLEMENO :) ) KAI TO DINOYME SE ALLO KATHIGITI
+
 
 # Check if random hour is in last 2 hours of each day.
 # IF it's true, try to find an earlier hour available on the same day
@@ -128,31 +181,50 @@ def programAlgorithm():
     # print(array)
     return array
 
+
 setLessonsTeachers()
 countLessonsTotalHours()
 populateLessonsAsigned()
 assignSingleLessonTeachers()
 assignLessonTeachers()
+
+lessonsAss = list(lessonsAssigned)
+lessonsAss.sort(key=lambda x: x.lessonCode, reverse=False)
+lessonsAssigned = np.array(lessonsAss)
+
 for x in range(0, len(lessonsAssigned)):
     lessonsAssigned[x].out()
-programAlgorithm()
 
-# countedZeros = 0
-# countedInstances = 0
-#
+# for key in teachers:
+#     print('ID: ', teachers[key].code, ' ', teachers[key].name, ' maxHoursPerWeek: ', teachers[key].maxHourWeek, ' AssignedHours: ', teachers[key].hoursAssigned)
+# programAlgorithm()
+
+countedZeros = 0
+countedInstances = 0
+
 # for x in range(0, 1000):
 #     zeros = 0
-#     curArray = programAlgorithm()
+#     #setLessonsTeachers()
+#     #countLessonsTotalHours()
+#     populateLessonsAsigned()
+#     assignSingleLessonTeachers()
+#     assignLessonTeachers()
 #
-#     for i in range(0, 3):
-#         for j in range(0,4):
-#             for k in range(0,4):
-#                 if curArray[i][j][k] == 0:
-#                     zeros = zeros+1
+#     # curArray = programAlgorithm()
+#     #
+#     # for i in range(0, 3):
+#     #     for j in range(0, 4):
+#     #         for k in range(0, 4):
+#     #             if curArray[i][j][k] == 0:
+#     #                 zeros = zeros + 1
+#     #
+#     # countedZeros = countedZeros + zeros
+#     # if zeros > 0:
+#     #     countedInstances = countedInstances + 1
 #
-#     countedZeros = countedZeros + zeros
-#     if zeros > 0:
-#         countedInstances = countedInstances + 1
+#     lessonsAssigned =  np.zeros(sumLessonsSessions, dtype=object)
+#     for key in teachers:
+#         teachers[key].clear()
 #
 # print("Counted zeroes", countedZeros)
 # print("Counted Instances", countedInstances)
