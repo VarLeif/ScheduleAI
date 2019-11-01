@@ -44,6 +44,7 @@ def programAlgorithm():
 
     for i in range(0, sumLessons):
         randomer = random.choice(list(lessons.keys()))
+        #change the while loop to get from a set that pops them (randomly)
         while randomer in usedLessonKeys:
             randomer = random.choice(list(lessons.keys()))
 
@@ -81,6 +82,27 @@ def programAlgorithm():
             availHours = availHours - 1
 
     print(array)
-
+    return array
 
 programAlgorithm()
+"""
+countedZeros = 0
+countedInstances = 0
+
+for x in range(0, 1000):
+    zeros = 0
+    curArray = programAlgorithm()
+
+    for i in range(0, 3):
+        for j in range(0,4):
+            for k in range(0,4):
+                if curArray[i][j][k] == 0:
+                    zeros = zeros+1
+    
+    countedZeros = countedZeros + zeros
+    if zeros > 0:
+        countedInstances = countedInstances + 1
+
+print("Counted zeroes", countedZeros)
+print("Counted Instances", countedInstances)
+"""
