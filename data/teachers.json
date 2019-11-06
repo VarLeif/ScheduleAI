@@ -176,6 +176,12 @@
             "lessons": [
                 {
                     "code": 5
+                },
+                {
+                    "code": 23
+                },
+                {
+                    "code": 40
                 }
             ]
         },
@@ -187,6 +193,12 @@
             "lessons": [
                 {
                     "code": 5
+                },
+                {
+                    "code": 23
+                },
+                {
+                    "code": 40
                 }
             ]
         },
@@ -340,7 +352,7 @@
             "code": 18,
             "name": "Αυγουλές Στέλιος",
             "maxHourDay": 4,
-            "maxHourWeek": 18,
+            "maxHourWeek": 20,
             "lessons": [
                 {
                     "code": 23
@@ -375,6 +387,12 @@
             "lessons": [
                 {
                     "code": 5
+                },
+                {
+                    "code": 23
+                },
+                {
+                    "code": 40
                 }
             ]
         },
@@ -420,23 +438,6 @@
                 },
                 {
                     "code": 48
-                }
-            ]
-        },
-        {
-            "code": 24,
-            "name": "Ιωσήφ Στάθης",
-            "maxHourDay": 4,
-            "maxHourWeek": 20,
-            "lessons": [
-                {
-                    "code": 5
-                },
-                {
-                    "code": 23
-                },
-                {
-                    "code": 40
                 }
             ]
         },

@@ -1,5 +1,7 @@
 import copy
 import random
+import datetime
+
 import numpy as np
 
 from app import *
@@ -11,7 +13,7 @@ sumLessonsSessions = klassHours[0][2] * amountOfTmimata[0] + klassHours[1][2] * 
                      amountOfTmimata[2]
 lessonsAssigned = np.zeros(sumLessonsSessions, dtype=object)
 
-
+startTime = datetime.datetime.now()
 # initialize array that holds lesson/teacher assignments! :)
 def populateLessonsAsigned():
     index = 0
@@ -62,6 +64,7 @@ def assignSingleLessonTeachers():
 
 
 def assignLessonTeachers():
+    global maxW
     np.random.shuffle(lessonsAssigned)
 
     for i in range(0, len(lessonsAssigned)):
@@ -73,12 +76,13 @@ def assignLessonTeachers():
             for key in lessons[lessonCode].teachers:
                 weight = 0
                 if teachers[key].getRemainingHour() >= lessons[key].hours:
-                    weight = teachers[key].getCurrWeigh(lessons[key].hours)
+                    weight = teachers[key].getCurrWeigh()
 
                 weightList[index] = weight
                 totalWeight = totalWeight + weight
                 index = index + 1
-
+                if weight > maxW:
+                    maxW = weight
             weightList = weightList / totalWeight
             chosenTeacher = np.random.choice(lessons[lessonCode].teachers, p=weightList)
             lessonsAssigned[i].teacherCode = chosenTeacher
@@ -95,14 +99,14 @@ def assignLessonTeachers():
                 if len(teachers[t].lessons.intersection(teachers[key].lessons)) > 0:
                     tWLM.add(teachers[t].code)
 
-            print('Teacher: ', teachers[key].name, 'Matches: ', tWLM)
+            print('Teacher: ', teachers[key].name, 'Matches: ', tWLM, '\tWeight: ', teachers[key].getCurrWeigh())
             maxHours = 0
             WHOIS = -1
             for k in tWLM:
                 if maxHours < teachers[k].hoursAssigned:
                     maxHours = teachers[k].hoursAssigned
                     WHOIS = k
-                print('Teacher: ', teachers[k].name, ' HoursAssigned: ', teachers[k].hoursAssigned)
+                print('Teacher: ', teachers[k].name, ' HoursAssigned: ', teachers[k].hoursAssigned, '\tWeight: ', teachers[k].getCurrWeigh())
             for k in tWLM:
                 if maxHours == teachers[k].hoursAssigned:
                     if WHOIS != k and teachers[WHOIS].lessonsAssigned < teachers[k].lessonsAssigned:
@@ -110,7 +114,7 @@ def assignLessonTeachers():
 
             print(teachers[WHOIS].name)
 
-            #TODO: PAIRNOYME TO ENA TRITO (STROGGYLEMENO :) ) KAI TO DINOYME SE ALLO KATHIGITI
+            #TODO: kanonikopoiisi
 
 
 # Check if random hour is in last 2 hours of each day.
@@ -131,12 +135,48 @@ def getHour(array, year, randomDay, randomHour):
                     randomHour = 5
 
     return randomHour
+"""
+Epilogi tou :
+    
+    25 wres tin evdomada swsta? nai!
+    
+    Kathigitis: hoursAssigned: 22 wres tin evdomada / 25. E PREPEI NA TON VALOYME KAPOY GIATI EXEI LIGES EPILOGES.
+    Baros gia ton pinaka assignedLessons -> Epireazetai apo: hoursAssigned, sum(oraMathimathimatos*tmimataKathigiti), sum(oraMathimatos*tmimata)
+    prepei na kratame: WresPouExounOristeiGiaTonKathigiti, WresPoyApomenoynGiaAssignmentGiaToTmima
+    
+    
+    exoume N tmimata:
+        Briskoume tis desmeumenes wres.
+        
+Topothetisi tou : (kodikosMathimatos, kathigitis, tmima)
+    wX: baros se tmimata
+    wY: baros se imera
+    wZ: baros se ora
+    [tmimata][x1, x2, x3 ,x4 ,x5][1,2,3,4,5,6,7]
+    [(({tmima, xn, ora_imeras), wxyz)1, (({tmima, xn, ora_imeras), wxyz)1, ... ,(({tmima, xn, ora_imeras), wxyz)k]
 
+ [komvos]
+ 171 nodes
+ [171 komvoi] -> o kathenas exei [171 paidia] -> -> -> -> -> 
+ 
+ [my_brain].exe [has_stopped.working]
+ segmetation fault; core dumped
+State:
+    parentState/parentNode
+    children[]
+    array[][][]
+    
+    
+    
+    [0][0][4] -> 3 wres sinolika. 
+"""
 
 def programAlgorithm():
     usedLessonKeys = set()
     array = np.zeros((sum(amountOfTmimata), 5, 7), dtype=object)
     sumLessons = len(lessons)
+    #./. var1: hoursAssignedKathigiti   #var2: sum(oraMathimathimatos*tmimataKathigiti)  #var3: sum(oraMathimatos*tmimata)
+
     days = [0, 1, 2, 3, 4]
 
     for i in range(0, sumLessons):
@@ -180,7 +220,8 @@ def programAlgorithm():
 
     # print(array)
     return array
-
+maxW = 'global'
+maxW  = 0
 
 setLessonsTeachers()
 countLessonsTotalHours()
@@ -189,7 +230,7 @@ assignSingleLessonTeachers()
 assignLessonTeachers()
 
 lessonsAss = list(lessonsAssigned)
-lessonsAss.sort(key=lambda x: x.lessonCode, reverse=False)
+# lessonsAss.sort(key=lambda x: x.lessonCode, reverse=False)
 lessonsAssigned = np.array(lessonsAss)
 
 for x in range(0, len(lessonsAssigned)):
@@ -202,14 +243,19 @@ for x in range(0, len(lessonsAssigned)):
 countedZeros = 0
 countedInstances = 0
 
-# for x in range(0, 1000):
+# for x in range(0, 10000):
 #     zeros = 0
-#     #setLessonsTeachers()
-#     #countLessonsTotalHours()
+#     # setLessonsTeachers()
+#     # countLessonsTotalHours()
 #     populateLessonsAsigned()
 #     assignSingleLessonTeachers()
 #     assignLessonTeachers()
 #
+#     lessonsAssigned =  np.zeros(sumLessonsSessions, dtype=object)
+#     for key in teachers:
+#         teachers[key].clear()
+#
+# #
 #     # curArray = programAlgorithm()
 #     #
 #     # for i in range(0, 3):
@@ -222,9 +268,10 @@ countedInstances = 0
 #     # if zeros > 0:
 #     #     countedInstances = countedInstances + 1
 #
-#     lessonsAssigned =  np.zeros(sumLessonsSessions, dtype=object)
-#     for key in teachers:
-#         teachers[key].clear()
-#
+
 # print("Counted zeroes", countedZeros)
 # print("Counted Instances", countedInstances)
+
+endTime = datetime.datetime.now() - startTime
+print(endTime)
+print('Maximum w: ',maxW)

@@ -1,3 +1,4 @@
+import math
 from math import factorial
 # Entities used for the production of the schedule
 
@@ -34,6 +35,7 @@ class Teacher:
         self.lessons = set()
         self.hoursAssigned = 0
         self.lessonsAssigned = 0
+        self.settledHours = 0
 
     def addLesson(self, lesson_code):
         self.lessons.add(lesson_code)
@@ -57,8 +59,11 @@ class Teacher:
     # Negative:
     # - Amount of subjects (He's more flexible for later)
     # - hoursOfLesson -> gives some randomness
-    def getCurrWeigh(self, hoursOfLesson):
-        return self.getRemainingHour() / ((len(self.lessons) * hoursOfLesson) * factorial(self.lessonsAssigned))
+    def getCurrWeigh(self):
+        return math.exp(self.getRemainingHour())  / ((len(self.lessons)) * math.log(math.exp(self.lessonsAssigned +1)))
+
+    # 18 /
+    # 20-22 /
 
     def toObject(self):
         data = {}
@@ -124,6 +129,11 @@ class AssignedLesson:
         self.lessonCode = lessonCode
         self.teacherCode = teacherCode
         self.tmimaCode = tmimaCode
+        self.assignedHours = 0
 
     def out(self):
         print('Κωδικός: ', self.lessonCode, ' Καθηγητής: ', self.teacherCode, ' Τμήμα: ', self.tmimaCode)
+
+    def getWeight(self, lessons, teachers, array):
+        return lessons[self.lessonCode].hours / (1 + self.assignedHours)
+        # importanceWeight = + lessons[self.lessonCode].hours + teachers[self.teacherCode].assignedHours - self.assignedHours - teachers[self.teacherCode].settledHours
