@@ -33,9 +33,9 @@ class Teacher:
         self.maxHourDay = maxHourDay
         self.maxHourWeek = maxHourWeek
         self.lessons = set()
-        self.hoursAssigned = 0
-        self.lessonsAssigned = 0
-        self.settledHours = 0
+        self.hoursAssigned = 0 #Amount of hours assigned to the teacher
+        self.lessonsAssigned = 0 #Amount of lessons assigned to the teacher
+        self.settledHours = 0 #Hours that are commited to the timetable
 
     def addLesson(self, lesson_code):
         self.lessons.add(lesson_code)
@@ -50,8 +50,13 @@ class Teacher:
     def getLessonsSum(self):
         return len(self.lessons)
 
+    #returns the number of available hours for "LESSON ASSIGNMENT"
     def getRemainingHour(self):
         return self.maxHourWeek - self.hoursAssigned
+
+    #returns the number of available hours for "TIMETABLE ALGORITHM"
+    def getUnsettledHours(self):
+        return self.hoursAssigned - self.settledHours
 
     # WEIGHT: THE BIGGER, THE BETTER (16 better than 15)
     # Positive:
@@ -134,6 +139,5 @@ class AssignedLesson:
     def out(self):
         print('Κωδικός: ', self.lessonCode, ' Καθηγητής: ', self.teacherCode, ' Τμήμα: ', self.tmimaCode)
 
-    def getWeight(self, lessons, teachers, array):
-        return lessons[self.lessonCode].hours / (1 + self.assignedHours)
-        # importanceWeight = + lessons[self.lessonCode].hours + teachers[self.teacherCode].assignedHours - self.assignedHours - teachers[self.teacherCode].settledHours
+    def getWeight(self, lessons, teachers):
+        return (math.exp(lessons[self.lessonCode].hours - self.assignedHours)) * (teachers[self.teacherCode].getUnsettledHours()**2)

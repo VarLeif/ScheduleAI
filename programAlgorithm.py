@@ -170,6 +170,19 @@ State:
     
     [0][0][4] -> 3 wres sinolika. 
 """
+def testWeights():
+
+    wghtDt = np.dtype([('lesson-code', int), ('tmima-code', int), ('weight', float)])
+
+    weightElements = np.zeros(len(lessonsAssigned), dtype=wghtDt)
+    for x in range(0, len(lessonsAssigned)):
+        weightElements[x] = (lessonsAssigned[x].lessonCode), (lessonsAssigned[x].tmimaCode), (lessonsAssigned[x].getWeight(lessons, teachers))
+
+    weightElements= np.sort(weightElements, order='weight')
+    weightElements = np.flip(weightElements)
+
+    print(weightElements)
+
 
 def programAlgorithm():
     usedLessonKeys = set()
@@ -229,12 +242,15 @@ populateLessonsAsigned()
 assignSingleLessonTeachers()
 assignLessonTeachers()
 
+
 lessonsAss = list(lessonsAssigned)
 # lessonsAss.sort(key=lambda x: x.lessonCode, reverse=False)
 lessonsAssigned = np.array(lessonsAss)
 
 for x in range(0, len(lessonsAssigned)):
     lessonsAssigned[x].out()
+
+testWeights()
 
 # for key in teachers:
 #     print('ID: ', teachers[key].code, ' ', teachers[key].name, ' maxHoursPerWeek: ', teachers[key].maxHourWeek, ' AssignedHours: ', teachers[key].hoursAssigned)
