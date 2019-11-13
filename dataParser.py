@@ -27,7 +27,7 @@ def readLessonDict(filepath):
 
 def readLessonJSON(filepath):
     dict = {}
-    with open(filepath, encoding = "utf-8") as json_file:
+    with open(filepath, encoding="utf-8") as json_file:
         data = json.load(json_file)
         for p in data['lessons']:
             obj = Lesson(p['code'], p['name'], p['classYear'], p['hours'])
@@ -37,7 +37,7 @@ def readLessonJSON(filepath):
 
 def readTeacherJSON(filepath):
     dict = {}
-    with open(filepath, encoding = "utf-8") as json_file:
+    with open(filepath, encoding="utf-8") as json_file:
         data = json.load(json_file)
         for p in data['teachers']:
             obj = Teacher(p['code'], p['name'], p['maxHourDay'], p['maxHourWeek'])
@@ -54,23 +54,48 @@ def saveLessonJSON(lessons, filepath):
     for x in lessons:
         data['lessons'].append(lessons[x].toObject())
 
-    with open(filepath, "w", encoding = "utf-8", buffering= 512) as f:
-        json.dump(data, f, ensure_ascii=False, indent = 4)
+    with open(filepath, "w", encoding="utf-8", buffering=512) as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
         f.flush()
         os.fsync(f.fileno())
 
     return True
+
 
 def saveTeacherJSON(lessons, filepath):
     data = {}
     data['teachers'] = []
     for x in lessons:
         data['teachers'].append(lessons[x].toObject())
-    
-    with open(filepath, "w", encoding = "utf-8", buffering= 512) as f:
-        json.dump(data, f, ensure_ascii=False, indent = 4)
+
+    with open(filepath, "w", encoding="utf-8", buffering=512) as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
         f.flush()
         os.fsync(f.fileno())
 
     return True
 
+
+import re
+
+
+# Parses files to read data
+
+def readLessonDict(filepath):
+    list = []
+
+    f = open(filepath, encoding="utf8")
+
+    for x in f:
+        if ":" in x:
+            str = re.sub('[\s* | : | \n]', "", x)
+            list.append([str, set()])
+        elif ("\t" in x) or ("    " in x):
+            endI = len(list) - 1
+            str = re.sub('[\n]', '', x)
+            str = str.lstrip()
+            list[endI][1].add(str)
+
+    f.close()
+
+    return list

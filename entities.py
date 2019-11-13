@@ -64,8 +64,8 @@ class Teacher:
     # Negative:
     # - Amount of subjects (He's more flexible for later)
     # - hoursOfLesson -> gives some randomness
-    def getCurrWeigh(self):
-        return math.exp(self.getRemainingHour())  / ((len(self.lessons)) * math.log(math.exp(self.lessonsAssigned +1)))
+    def getCurrWeigh(self, fitsIn):
+        return math.exp(self.getRemainingHour())  / ((len(self.lessons)) * math.log(math.exp(self.lessonsAssigned +1)))*fitsIn
 
     # 18 /
     # 20-22 /

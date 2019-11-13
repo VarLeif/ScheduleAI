@@ -1,5 +1,6 @@
-import random
 import dataParser as parser
+import random
+
 from entities import Lesson
 
 def getYear(ly):
@@ -75,7 +76,6 @@ def checkDuplicateTeacher(data):
                 duplicates.append([data[ikey], data[jkey]])
     return duplicates
 
-
 # global for grouped teachers
 grouped_teachers = []
 
@@ -115,4 +115,4 @@ def initGroups(teachers, lessons, lesson_dictionary_filepath):
                     grouped_teachers[index][1].append([teacher[1], teacher[0], LessonsInGroup, len(LessonsInGroup)/len(teacher[2])])
                     break
 
-    return [(lesson_sets, grouped_teachers)]
+    return [lesson_sets, grouped_teachers]

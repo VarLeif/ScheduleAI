@@ -64,13 +64,16 @@ def assignSingleLessonTeachers():
 
 
 def assignLessonTeachers():
-    global maxW
-    global groups
-    global lessonSet
-
     np.random.shuffle(lessonsAssigned)
-
+    totalRuns = 0
     for i in range(0, len(lessonsAssigned)):
+
+        lesSetIn = 0
+        for ls in range(0, len(lessonSets)):
+            if lessons[lessonsAssigned[i].lessonCode].name in lessonSets[ls][1]:
+                lesSetIn = ls
+                break
+
         if lessonsAssigned[i].teacherCode == -1:
             lessonCode = lessonsAssigned[i].lessonCode
             weightList = np.zeros(len(lessons[lessonCode].teachers))
@@ -78,14 +81,17 @@ def assignLessonTeachers():
             totalWeight = 0
             for key in lessons[lessonCode].teachers:
                 weight = 0
+                fitProb = 0
                 if teachers[key].getRemainingHour() >= lessons[key].hours:
-                    weight = teachers[key].getCurrWeigh()
+                    fitsIn = groups[lesSetIn][1]
+                    for te in fitsIn:
+                        if te[1] == teachers[key].code:
+                            fitProb = te[3]
+                    weight = teachers[key].getCurrWeigh(fitProb)
 
                 weightList[index] = weight
                 totalWeight = totalWeight + weight
                 index = index + 1
-                if weight > maxW:
-                    maxW = weight
             weightList = weightList / totalWeight
             chosenTeacher = np.random.choice(lessons[lessonCode].teachers, p=weightList)
             lessonsAssigned[i].teacherCode = chosenTeacher
@@ -236,32 +242,30 @@ def programAlgorithm():
 
     # print(array)
     return array
-maxW = 'global'
-maxW  = 0
 
 groups = 'global'
 lessonSets = 'global'
 
 initGroupLessonSet = util.initGroups(teachers,lessons,'./data/dictionary.txt')
 
-groups = initGroupLessonSet[0]
-lessonSet = initGroupLessonSet[1]
+groups = initGroupLessonSet[1]
+lessonSets = initGroupLessonSet[0]
 
 setLessonsTeachers()
 countLessonsTotalHours()
-populateLessonsAsigned()
-assignSingleLessonTeachers()
-assignLessonTeachers()
+# populateLessonsAsigned()
+# assignSingleLessonTeachers()
+# assignLessonTeachers()
 
 
-lessonsAss = list(lessonsAssigned)
-# lessonsAss.sort(key=lambda x: x.lessonCode, reverse=False)
-lessonsAssigned = np.array(lessonsAss)
+# lessonsAss = list(lessonsAssigned)
+# # lessonsAss.sort(key=lambda x: x.lessonCode, reverse=False)
+# lessonsAssigned = np.array(lessonsAss)
 
-for x in range(0, len(lessonsAssigned)):
-    lessonsAssigned[x].out()
+# for x in range(0, len(lessonsAssigned)):
+#     lessonsAssigned[x].out()
 
-testWeights()
+# testWeights()
 
 # for key in teachers:
 #     print('ID: ', teachers[key].code, ' ', teachers[key].name, ' maxHoursPerWeek: ', teachers[key].maxHourWeek, ' AssignedHours: ', teachers[key].hoursAssigned)
@@ -270,18 +274,18 @@ testWeights()
 countedZeros = 0
 countedInstances = 0
 
-# for x in range(0, 10000):
-#     zeros = 0
-#     # setLessonsTeachers()
-#     # countLessonsTotalHours()
-#     populateLessonsAsigned()
-#     assignSingleLessonTeachers()
-#     assignLessonTeachers()
-#
-#     lessonsAssigned =  np.zeros(sumLessonsSessions, dtype=object)
-#     for key in teachers:
-#         teachers[key].clear()
-#
+for x in range(0, 5000):
+    zeros = 0
+    # setLessonsTeachers()
+    # countLessonsTotalHours()
+    populateLessonsAsigned()
+    assignSingleLessonTeachers()
+    assignLessonTeachers()
+# #
+    lessonsAssigned =  np.zeros(sumLessonsSessions, dtype=object)
+    for key in teachers:
+        teachers[key].clear()
+
 # #
 #     # curArray = programAlgorithm()
 #     #
@@ -301,4 +305,3 @@ countedInstances = 0
 
 endTime = datetime.datetime.now() - startTime
 print(endTime)
-print('Maximum w: ',maxW)
