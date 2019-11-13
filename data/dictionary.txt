@@ -1,0 +1,104 @@
+Math:
+    Math
+    Algebra
+    Geometry
+    Trigonometry
+    Μαθηματικά
+    Άλγεβρα
+    Γεωμετρία
+    Τριγωνομετρία
+Greek:
+    Greek Literature
+    Greek Language
+    Ancient Greek Language
+    Ancient Greek Literature
+    Greek Grammar
+    Greek Literature
+    Αρχαία Ελληνική Γλώσσα
+    Αρχαία Ελληνική Γραμματεία
+    Αρχαία Ελληνική Γραμματεία
+    Αρχαία Ελληνική
+    Αρχαία
+    Αρχαιογνωσία
+    Νεοελληνική Γλώσσα
+    Νεολληνική Γλώσσα
+    Νεοελληνική Λογοτεχνία
+    Νεολληνική Λογοτεχνία
+    Γλώσσα
+    Λογοτεχνία
+    Γραμματική
+    Έκθεση
+    Essay
+English:
+    English
+    English Literature
+    Αγγλικά
+French:
+    French
+    French Literature
+    Γαλλικά
+    Γαλλικά/Γερμανικά
+German:
+    German
+    German Literature
+    Γερμανικά
+    Γαλλικά/Γερμανικά
+History:
+    History
+    Ιστορία
+    Αρχαία Ιστορία
+    Μεσαιωνική Ιστορία
+    Νεότερη Ιστορία
+    Μεσαιωνική και Νεότερη Ιστορία
+    Νεότερη και Σύγχρονη Ιστορία
+    Σύγχρονη Ιστορία
+Sociology:
+    Κοινωνική Πολιτική Αγωγή
+    Social Studies
+    Civics
+    Αγωγή του Πολίτη
+    Οικιακή Οικονομία
+    Home Economics
+    Home Ec
+P.E.:
+    P.E.
+    PE
+    Physical Education
+    Γυμναστική
+    Φυσική Αγωγή
+    Πρώτες Βοήθειες
+Biology:
+    Biology
+    Βιολογία
+Geology:
+    Geology
+    Geography
+    Γεωλογία
+    Γεωγραφία
+Science:
+    Chemistry
+    Χημεία
+    Φυσική
+    Physics
+Arts:
+    Painting
+    Arts
+    Art
+    Καλλιτεχνικά
+    Τέχνη
+    Music
+    Music Theory
+    Μουσική
+Technology:
+    Computer
+    Πληροφορική
+    Τechnology
+    Tech
+    Τεχνολογία
+    Πληροφορική & Τεχνολογία
+    Πληροφορική/Τεχνολογία
+    Πληροφορική και Τεχνολογία
+Theology:
+    Theology
+    Religion
+    Θρησκευτικά

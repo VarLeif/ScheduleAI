@@ -1,9 +1,29 @@
 from entities import *
 import os
 import json
+import re
 
 
 # Parses files to read data
+
+def readLessonDict(filepath):
+    list = []
+
+    f = open(filepath)
+
+    for x in f:
+        if ":" in x:
+            str = re.sub('[\s* | : | \n]', "", x)
+            list.append([str, set()])
+        elif ("\t" in x) or ("    " in x):
+            endI = len(list) - 1
+            str = re.sub('[\n]', '', x)
+            str = str.lstrip()
+            list[endI][1].add(str)
+
+    f.close()
+
+    return list
 
 def readLessonJSON(filepath):
     dict = {}

@@ -505,6 +505,17 @@
                     "code": 48
                 }
             ]
+        },
+        {
+            "code": 29,
+            "name": "Νικολάου Μάνος",
+            "maxHourDay": 5,
+            "maxHourWeek": 20,
+            "lessons": [
+                {
+                    "code": 34
+                }
+            ]
         }
     ]
 }
