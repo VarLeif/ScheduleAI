@@ -7,7 +7,7 @@ import numpy as np
 from app import *
 import util
 
-amountOfTmimata = [4, 3, 3]
+amountOfTmimata = [3, 3, 3]
 klassHours = util.getKlassHours(lessons)
 sumLessonsSessions = klassHours[0][2] * amountOfTmimata[0] + klassHours[1][2] * amountOfTmimata[1] + klassHours[2][2] * \
                      amountOfTmimata[2]
