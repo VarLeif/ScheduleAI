@@ -115,10 +115,4 @@ def initGroups(teachers, lessons, lesson_dictionary_filepath):
                     grouped_teachers[index][1].append([teacher[1], teacher[0], LessonsInGroup, len(LessonsInGroup)/len(teacher[2])])
                     break
 
-    print("\n\n\n")
-    for group in grouped_teachers:
-        print("Group:",group[0])
-        for teacher in group[1]:
-            print("Teacher: ", teacher[0], "Subject:", teacher[2], "Fits by ", (teacher[3]*100), "%")
-
-    return grouped_teachers
+    return [(lesson_sets, grouped_teachers)]

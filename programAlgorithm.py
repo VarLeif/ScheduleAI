@@ -65,6 +65,9 @@ def assignSingleLessonTeachers():
 
 def assignLessonTeachers():
     global maxW
+    global groups
+    global lessonSet
+
     np.random.shuffle(lessonsAssigned)
 
     for i in range(0, len(lessonsAssigned)):
@@ -235,6 +238,14 @@ def programAlgorithm():
     return array
 maxW = 'global'
 maxW  = 0
+
+groups = 'global'
+lessonSets = 'global'
+
+initGroupLessonSet = util.initGroups(teachers,lessons,'./data/dictionary.txt')
+
+groups = initGroupLessonSet[0]
+lessonSet = initGroupLessonSet[1]
 
 setLessonsTeachers()
 countLessonsTotalHours()
