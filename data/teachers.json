@@ -3,7 +3,7 @@
         {
             "code": 1,
             "name": "Περδικάκη Δέσποινα",
-            "maxHourDay": 7,
+            "maxHourDay": 5,
             "maxHourWeek": 25,
             "lessons": [
                 {
@@ -38,8 +38,8 @@
         {
             "code": 2,
             "name": "Μαδρή Ελένη",
-            "maxHourDay": 6,
-            "maxHourWeek": 23,
+            "maxHourDay": 5,
+            "maxHourWeek": 25,
             "lessons": [
                 {
                     "code": 1
@@ -71,7 +71,7 @@
             "code": 3,
             "name": "Ματθαίου Ηλιάννα",
             "maxHourDay": 4,
-            "maxHourWeek": 24,
+            "maxHourWeek": 20,
             "lessons": [
                 {
                     "code": 7
@@ -88,7 +88,7 @@
             "code": 4,
             "name": "Ιωαννίδου Γεωργία",
             "maxHourDay": 2,
-            "maxHourWeek": 24,
+            "maxHourWeek": 10,
             "lessons": [
                 {
                     "code": 10
@@ -104,8 +104,8 @@
         {
             "code": 5,
             "name": "Γαϊτόγλου Παρασκευάς",
-            "maxHourDay": 2,
-            "maxHourWeek": 24,
+            "maxHourDay": 3,
+            "maxHourWeek": 15,
             "lessons": [
                 {
                     "code": 13
@@ -119,7 +119,7 @@
             "code": 6,
             "name": "Στεφάνου Στεφανία",
             "maxHourDay": 2,
-            "maxHourWeek": 24,
+            "maxHourWeek": 10,
             "lessons": [
                 {
                     "code": 2
@@ -129,8 +129,8 @@
         {
             "code": 7,
             "name": "Χαιρόπουλος Χρήστος",
-            "maxHourDay": 2,
-            "maxHourWeek": 24,
+            "maxHourDay": 3,
+            "maxHourWeek": 15,
             "lessons": [
                 {
                     "code": 3
@@ -143,8 +143,8 @@
         {
             "code": 8,
             "name": "Χριμπάκη Φιλιώ",
-            "maxHourDay": 2,
-            "maxHourWeek": 24,
+            "maxHourDay": 3,
+            "maxHourWeek": 15,
             "lessons": [
                 {
                     "code": 8
@@ -154,7 +154,7 @@
         {
             "code": 9,
             "name": "Τζόρτζης Μιχάλης",
-            "maxHourDay": 3,
+            "maxHourDay": 4,
             "maxHourWeek": 20,
             "lessons": [
                 {
@@ -171,8 +171,8 @@
         {
             "code": 10,
             "name": "Κωστάλας Οδυσσέας",
-            "maxHourDay": 5,
-            "maxHourWeek": 22,
+            "maxHourDay": 4,
+            "maxHourWeek": 20,
             "lessons": [
                 {
                     "code": 5
@@ -205,8 +205,8 @@
         {
             "code": 12,
             "name": "Κρητικού Ελευθερία",
-            "maxHourDay": 6,
-            "maxHourWeek": 21,
+            "maxHourDay": 5,
+            "maxHourWeek": 25,
             "lessons": [
                 {
                     "code": 4
@@ -238,7 +238,7 @@
             "code": 13,
             "name": "Μερκελίδης Άγγελος/Μακρόνη Εμμανουέλα",
             "maxHourDay": 4,
-            "maxHourWeek": 22,
+            "maxHourWeek": 20,
             "lessons": [
                 {
                     "code": 11
@@ -255,7 +255,7 @@
             "code": 14,
             "name": "Δούρβας Διονύσης",
             "maxHourDay": 3,
-            "maxHourWeek": 14,
+            "maxHourWeek": 15,
             "lessons": [
                 {
                     "code": 9
@@ -272,7 +272,7 @@
             "code": 15,
             "name": "Τάνκιος Σέργιος/Λύκος Αντώνης",
             "maxHourDay": 4,
-            "maxHourWeek": 22,
+            "maxHourWeek": 20,
             "lessons": [
                 {
                     "code": 12
@@ -288,8 +288,8 @@
         {
             "code": 16,
             "name": "Ιακωβίδης Μίχάλης",
-            "maxHourDay": 2,
-            "maxHourWeek": 14,
+            "maxHourDay": 3,
+            "maxHourWeek": 15,
             "lessons": [
                 {
                     "code": 6
@@ -305,8 +305,8 @@
         {
             "code": 29,
             "name": "Μπερνούλη Ιουλία",
-            "maxHourDay": 4,
-            "maxHourWeek": 14,
+            "maxHourDay": 3,
+            "maxHourWeek": 15,
             "lessons": [
                 {
                     "code": 1
@@ -334,8 +334,8 @@
         {
             "code": 17,
             "name": "Τσόλας Αποστόλης",
-            "maxHourDay": 4,
-            "maxHourWeek": 14,
+            "maxHourDay": 3,
+            "maxHourWeek": 15,
             "lessons": [
                 {
                     "code": 9
@@ -366,7 +366,7 @@
             "code": 19,
             "name": "Σόλης Χαράλαμπος",
             "maxHourDay": 2,
-            "maxHourWeek": 8,
+            "maxHourWeek": 10,
             "lessons": [
                 {
                     "code": 2
@@ -399,8 +399,8 @@
         {
             "code": 21,
             "name": "Νικολάου Μάνος",
-            "maxHourDay": 5,
-            "maxHourWeek": 20,
+            "maxHourDay": 3,
+            "maxHourWeek": 15,
             "lessons": [
                 {
                     "code": 34
@@ -411,7 +411,7 @@
             "code": 22,
             "name": "Κωνστανίδης Λάζαρος",
             "maxHourDay": 4,
-            "maxHourWeek": 18,
+            "maxHourWeek": 20,
             "lessons": [
                 {
                     "code": 3
@@ -428,7 +428,7 @@
             "code": 23,
             "name": "Γρασσίδης Παύλος",
             "maxHourDay": 4,
-            "maxHourWeek": 18,
+            "maxHourWeek": 20,
             "lessons": [
                 {
                     "code": 13
@@ -468,7 +468,7 @@
             "code": 26,
             "name": "Πολίτης Ματθαίος",
             "maxHourDay": 2,
-            "maxHourWeek": 8,
+            "maxHourWeek": 10,
             "lessons": [
                 {
                     "code": 2
@@ -485,7 +485,7 @@
             "code": 27,
             "name": "Χραπινιά Βούλα",
             "maxHourDay": 2,
-            "maxHourWeek": 8,
+            "maxHourWeek": 10,
             "lessons": [
                 {
                     "code": 44
@@ -496,24 +496,13 @@
             "code": 28,
             "name": "Νικολάου Τέσλα",
             "maxHourDay": 2,
-            "maxHourWeek": 8,
+            "maxHourWeek": 10,
             "lessons": [
                 {
                     "code": 50
                 },
                 {
                     "code": 48
-                }
-            ]
-        },
-        {
-            "code": 29,
-            "name": "Νικολάου Μάνος",
-            "maxHourDay": 5,
-            "maxHourWeek": 20,
-            "lessons": [
-                {
-                    "code": 34
                 }
             ]
         }

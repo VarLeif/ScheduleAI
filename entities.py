@@ -41,7 +41,10 @@ class Teacher:
         self.lessons.add(lesson_code)
 
     def out(self):
-        print("Teacher: ", self.name, "Code: ", self.code, "totalLessons: ", self.getLessonsSum())
+        print("Teacher: ", self.name,
+              "Code: ", self.code,
+              "totalLessons: ", self.getLessonsSum(),
+              "hoursAssigned: ", self.hoursAssigned)
 
     def lessonCodes(self):
         for code in self.lessons:
@@ -65,7 +68,7 @@ class Teacher:
     # - Amount of subjects (He's more flexible for later)
     # - hoursOfLesson -> gives some randomness
     def getCurrWeigh(self, fitsIn):
-        return math.exp(self.getRemainingHour())  / ((len(self.lessons)) * math.log(math.exp(self.lessonsAssigned +1)))*fitsIn
+        return round(math.exp(self.getRemainingHour())*fitsIn  / ((len(self.lessons)) * (math.log(math.exp(self.lessonsAssigned))+2)), 10)
 
     # 18 /
     # 20-22 /
@@ -85,6 +88,7 @@ class Teacher:
     def clear(self):
         self.hoursAssigned=0
         self.lessonsAssigned=0
+        self.settledHours = 0
 
 
 class Session:
@@ -137,7 +141,11 @@ class AssignedLesson:
         self.assignedHours = 0
 
     def out(self):
-        print('Κωδικός: ', self.lessonCode, ' Καθηγητής: ', self.teacherCode, ' Τμήμα: ', self.tmimaCode)
+        print('Κωδικός: ', self.lessonCode,
+              ' Καθηγητής: ', self.teacherCode,
+              ' Τμήμα: ', self.tmimaCode)
 
     def getWeight(self, lessons, teachers):
-        return (math.exp(lessons[self.lessonCode].hours - self.assignedHours)) * (teachers[self.teacherCode].getUnsettledHours()**2)
+        #e ^ eleftheresWresKathigiti * (wresMathimatos - assignedWresMathimatos)^2)
+        n = lessons[self.lessonCode].hours - self.assignedHours + 1
+        return math.exp(teachers[self.teacherCode].getUnsettledHours()) * (n**2)
