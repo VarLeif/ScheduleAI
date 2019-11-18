@@ -416,7 +416,7 @@ def runProgramOnce():
     #           ' AssignedHours: ', teachers[key].hoursAssigned)
         #results(teachers[key].name)
 
-    programAlgorithm()
+    return programAlgorithm()
 
 
 def runProgramMany(times):
@@ -436,7 +436,7 @@ def runProgramMany(times):
             teachers[key].clear()
 
 
-runProgramOnce()
+util.exportPDF(runProgramOnce())
 
 
 # lessonsAss = list(lessonsAssigned)

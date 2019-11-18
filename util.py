@@ -1,5 +1,8 @@
 import dataParser as parser
 import random
+import pandas as pd
+import numpy as np
+import os
 
 from entities import Lesson
 
@@ -116,3 +119,41 @@ def initGroups(teachers, lessons, lesson_dictionary_filepath):
                     break
 
     return [lesson_sets, grouped_teachers]
+
+def exportPDF(array):
+
+    if not os.path.exists('./output'):
+        print("\nOutput folder doesn\' exist. Trying to create folder")
+        try:
+            os.mkdir('./output')
+        except OSError:
+            print("Creation of the output directory failed")
+        else:
+            print("Folder created")
+
+    # Change it to fit Greek schools with a file
+    hour_axis = ['8:00-9:00','9:00-10:00','10:00-11:00',
+              '11:00-12:00','12:00-1:00','1:00-2:00','2:00-3:00']
+
+    day_axis = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+
+    tmimata = array.shape[0]  # tmima
+    days = array.shape[1]  # days
+    hours = array.shape[2]  # hours
+
+    for tmima in range(0, tmimata):
+
+        # remove when programAlgorithm() works
+        if tmima >= 3:
+            break
+
+        array2d = array[tmima]
+
+        dfarray = np.zeros( (hours, days), dtype=object)
+        for day in range(0, days):
+            dfarray[:, day] = array2d[day]
+
+        dfarray[ dfarray == 0] = ' '
+        df = pd.DataFrame(dfarray, index=hour_axis, columns=day_axis)
+        df.to_html('./output/test'+str(tmima)+'.html')
+
