@@ -134,7 +134,7 @@ class Klass:
 
 class AssignedLesson:
 
-    def __init__(self,lessonCode, teacherCode, tmimaCode):
+    def __init__(self, lessonCode, teacherCode, tmimaCode):
         self.lessonCode = lessonCode
         self.teacherCode = teacherCode
         self.tmimaCode = tmimaCode
@@ -144,6 +144,9 @@ class AssignedLesson:
         print('Κωδικός: ', self.lessonCode,
               ' Καθηγητής: ', self.teacherCode,
               ' Τμήμα: ', self.tmimaCode)
+
+    def isCompleted(self, lessons):
+        return self.assignedHours == lessons[self.lessonCode].hours
 
     def getWeight(self, lessons, teachers):
         #e ^ eleftheresWresKathigiti * (wresMathimatos - assignedWresMathimatos)^2)

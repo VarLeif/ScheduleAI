@@ -3,7 +3,6 @@ import random
 import pandas as pd
 import numpy as np
 import os
-import pdfkit as pdf
 
 from entities import Lesson
 
@@ -121,7 +120,7 @@ def initGroups(teachers, lessons, lesson_dictionary_filepath):
 
     return [lesson_sets, grouped_teachers]
 
-def exportPDF(array):
+def exportPDF(array, lessons, teachers):
 
     locale = "gr"
     style = None
@@ -154,14 +153,17 @@ def exportPDF(array):
 
     htmlList = []
 
+    newArray = np.zeros((len(array), len(array[0]), len(array[0][0])), dtype=object)
+
+    for z in range(0, len(array)):
+        for y in range(0 , len(array[0])):
+            for x in range(0, len(array[0][0])):
+                newArray[z][y][x] = lessons[array[z][y][x].lessonCode].name
+
     # export each schedule
     for tmima in range(0, tmimata):
 
-        # remove when programAlgorithm() works
-        if tmima >= 3:
-            break
-
-        array2d = array[tmima]
+        array2d = newArray[tmima]
 
         dfarray = np.zeros( (hours, days), dtype=object)
         for day in range(0, days):
@@ -205,3 +207,4 @@ def exportPDF(array):
         pdf.from_string(html_file, ',/output/program.pdf', options=options, css='./style/style.css')
     """
     #print(html_file)
+    parser.writeFile('output/schedule.html', html_file)

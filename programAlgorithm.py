@@ -12,6 +12,8 @@ klassHours = util.getKlassHours(lessons)
 sumLessonsSessions = klassHours[0][2] * amountOfTmimata[0] + klassHours[1][2] * amountOfTmimata[1] + klassHours[2][2] * amountOfTmimata[2]
 lessonsAssigned = np.zeros(sumLessonsSessions, dtype=object)
 
+totalHours = klassHours[0][1] * amountOfTmimata[0] + klassHours[1][1] * amountOfTmimata[1] + klassHours[2][1] * amountOfTmimata[2]
+print(totalHours)
 
 # initialize array that holds lesson/teacher assignments! :)
 def populateLessonsAsigned():
@@ -216,12 +218,12 @@ def getDayHourWeight(timetable, day, hour, chosenLessonAssigned):
         return 0
 
     # an to tmima exei allo mathima ekein tin wra
-    if timetable[chosenLessonAssigned.tmimaCode][day][hour] != 0:
+    if timetable[chosenLessonAssigned.tmimaCode][day][hour].teacherCode != 0:
         return 0
 
     # an kanei kapoy allou mathima to sigkekrimeno (day,hour), to varos gurnaei 0
     for i in range(0, sum(amountOfTmimata)):
-        if timetable[i][day][hour].teachercode == chosenLessonAssigned.teacherCode:
+        if timetable[i][day][hour].teacherCode == chosenLessonAssigned.teacherCode:
             return 0
     # an exei sunexomenes wres [(day, hour-1),(day, hour-2), (day, hour-1), (day, hour+1), (day, hour+1), (day, hour+2)]
     # einai gemata, to varos gurnaei 0
@@ -232,8 +234,7 @@ def getDayHourWeight(timetable, day, hour, chosenLessonAssigned):
         for tmima in range(0, sum(amountOfTmimata)):
             tmimaDay = timetable[tmima][day]
 
-            if tmimaDay[hour + 1].teacherCode == chosenLessonAssigned.teacherCode and tmimaDay[
-                hour + 2].teacherCode == chosenLessonAssigned.teacherCode:
+            if tmimaDay[hour + 1].teacherCode == chosenLessonAssigned.teacherCode and tmimaDay[hour + 2].teacherCode == chosenLessonAssigned.teacherCode:
                 return 0
 
             if tmimaDay[hour+1].teacherCode == chosenLessonAssigned.teacherCode:
@@ -279,17 +280,11 @@ def getDayHourWeight(timetable, day, hour, chosenLessonAssigned):
         if times >= 2:
             return 0
 
-
-    # oso megalutero einai to assignedHours, toso megalutero varos prepei na exoun ta mikra (hour), diladi na mpainei o kathigitis
-    #stis prwtes wres, kai na kaluptei 2wra kai oxi 1, keno, 1 keno k.lp.
     #n(logn) sunartisi
     teacherHoursAssigned = teachers[chosenLessonAssigned.teacherCode].hoursAssigned
-    heavySchedule = teacherHoursAssigned * (math.log(teacherHoursAssigned) +1)
+    heavySchedule = teacherHoursAssigned * (math.log(teacherHoursAssigned) +1) / (teacherDayHour+1)
 
-    #[0,1,2,3,4,5,6]
-    # heavySchedule megalo, tote to 0 exei > varos apo to 1,2,3,4,5,6
-    # heavySchedule mikro, tote theloyme to varos na douleuei antistrofa. [6,5,4,3,2,1]
-
+    return heavySchedule/((hour+1)**2)
 
     #kalipsi kenou? kalipsi 2oro?
 
@@ -300,78 +295,119 @@ def getDayHourWeight(timetable, day, hour, chosenLessonAssigned):
     #keno, 2, keno, 2, keno
 
 
+def isFinishedState(localLessonsAssigned):
 
+    for element in localLessonsAssigned:
+        if not element.isCompleted(lessons):
+            return False
+
+    return True
 
 def programAlgorithm():
+    #position array
+    posArray = np.zeros(35, dtype=object)
+    for i in range(0, 5):
+        for j in range(0, 7):
+            posArray[7*i+j] = [i, j]
+
+    print(posArray)
+
     localLessonsAssigned = copy.deepcopy(lessonsAssigned)
-    for element in localLessonsAssigned:
-        element.out()
+    # for element in localLessonsAssigned:
+    #     element.out()
     usedLessonKeys = set()
+    emptyLesson = AssignedLesson(0, 0, 0)
     array = np.zeros((sum(amountOfTmimata), 5, 7), dtype=object)
+
+    array.fill(emptyLesson)
     #[9][5][7] -> [...][5][7]
+    counter = 0
+    while not isFinishedState(localLessonsAssigned):
 
-    #CALCULATE WEIGHTS FOR EACH ELEMENT IN localLessonsAssigned
+        #CALCULATE WEIGHTS FOR EACH ELEMENT IN localLessonsAssigned
+        weightAssignedLessons = np.zeros(len(localLessonsAssigned))
+        totalWeight = 0
+        for x in range(0, len(localLessonsAssigned)):
+            weightAssignedLessons[x] = localLessonsAssigned[x].getWeight(lessons, teachers)
+            totalWeight = totalWeight + weightAssignedLessons[x]
 
-    weightAssignedLessons = np.zeros(len(localLessonsAssigned))
-    totalWeight = 0
-    for x in range(0, len(localLessonsAssigned)):
-        weightAssignedLessons[x] = localLessonsAssigned[x].getWeight(lessons, teachers)
-        totalWeight = totalWeight + weightAssignedLessons[x]
+        weightAssignedLessons = weightAssignedLessons / totalWeight
+        chosenTeacher = np.random.choice(localLessonsAssigned, p=weightAssignedLessons)
+        #teachers[chosenTeacher.teacherCode].out()
 
-    weightAssignedLessons = weightAssignedLessons / totalWeight
-    chosenTeacher = np.random.choice(localLessonsAssigned, p=weightAssignedLessons)
-    teachers[chosenTeacher.teacherCode].out()
+        #END CALCULATE WEIGHTS
 
-    #END CALCULATE WEIGHTS
+        # CALCULATE WEIGHT FOR DAY N HOUR....
+        weightDayHours = np.zeros((35), dtype=float)
 
-    # CALCULATE WEIGHT FOR DAY N HOUR....
-    weightDayHours = np.zeros((5,7))
+        for i in range(0, 5):
+            for j in range(0, 7):
+                weightDayHours[7*i+j] = getDayHourWeight(array, i, j, chosenTeacher)
 
-    # END CALCULATE WEIGHT FOR DAY N HOUR
+        totalWeight = np.sum(weightDayHours)
+        weightDayHours = np.divide(weightDayHours, totalWeight)
+        chosenDayHour = np.random.choice(posArray, p=weightDayHours)
+
+        chosenDay = chosenDayHour[0]
+        chosenHour = chosenDayHour[1]
+
+        #Fill all the appropriate variables after picking day n' hour
+        array[chosenTeacher.tmimaCode][chosenDay][chosenHour] = chosenTeacher
+        chosenTeacher.assignedHours += 1
+        teachers[chosenTeacher.teacherCode].settledHours += 1
+        counter+=1
+        print(counter)
+        if counter==288:
+            util.exportPDF(array, lessons, teachers)
+            break
+
+
+
 
     sumLessons = len(lessons)
+
     # ./. var1: hoursAssignedKathigiti   #var2: sum(oraMathimathimatos*tmimataKathigiti)  #var3: sum(oraMathimatos*tmimata)
 
     days = [0, 1, 2, 3, 4]
 
-    for i in range(0, sumLessons):
-        randomer = random.choice(list(lessons.keys()))
-        # change the while loop to get from a set that pops them (randomly)
-        while randomer in usedLessonKeys:
-            randomer = random.choice(list(lessons.keys()))
-
-        usedLessonKeys.add(randomer)
-
-        year = util.getYear(lessons[randomer].classYear)
-        availHours = lessons[randomer].hours
-
-        while availHours != 0:
-
-            randomDay = random.randint(0, 4)
-            randomHour = random.randint(0, 6)
-            # count unique appearances of a single lesson in a particular day!
-            countDayInstances = np.count_nonzero(array[year][randomDay] == lessons[randomer].name)
-
-            # FREQUENCY CHECK:
-            # If: a single lesson has only 2 hours per week, do not allow assignment on the same weekday
-            # Else: (a lesson has more than 2 hours), allow a maximum of 2 hours for each weekday.
-            if lessons[randomer].hours == 2:
-                if countDayInstances == 1:
-                    randomDay = util.generateAvailDays(days, randomDay)
-            else:
-                if countDayInstances == 2:
-                    randomDay = util.generateAvailDays(days, randomDay)
-
-            # END FREQUENCY CHECK
-
-            while array[year][randomDay][randomHour] != 0:
-                randomDay = random.randint(0, 4)
-                randomHour = random.randint(0, 6)
-
-            randomHour = getHour(array, year, randomDay, randomHour)
-
-            array[year][randomDay][randomHour] = lessons[randomer].name
-            availHours = availHours - 1
+    # for i in range(0, sumLessons):
+    #     randomer = random.choice(list(lessons.keys()))
+    #     # change the while loop to get from a set that pops them (randomly)
+    #     while randomer in usedLessonKeys:
+    #         randomer = random.choice(list(lessons.keys()))
+    #
+    #     usedLessonKeys.add(randomer)
+    #
+    #     year = util.getYear(lessons[randomer].classYear)
+    #     availHours = lessons[randomer].hours
+    #
+    #     while availHours != 0:
+    #
+    #         randomDay = random.randint(0, 4)
+    #         randomHour = random.randint(0, 6)
+    #         # count unique appearances of a single lesson in a particular day!
+    #         countDayInstances = np.count_nonzero(array[year][randomDay] == lessons[randomer].name)
+    #
+    #         # FREQUENCY CHECK:
+    #         # If: a single lesson has only 2 hours per week, do not allow assignment on the same weekday
+    #         # Else: (a lesson has more than 2 hours), allow a maximum of 2 hours for each weekday.
+    #         if lessons[randomer].hours == 2:
+    #             if countDayInstances == 1:
+    #                 randomDay = util.generateAvailDays(days, randomDay)
+    #         else:
+    #             if countDayInstances == 2:
+    #                 randomDay = util.generateAvailDays(days, randomDay)
+    #
+    #         # END FREQUENCY CHECK
+    #
+    #         while array[year][randomDay][randomHour] != 0:
+    #             randomDay = random.randint(0, 4)
+    #             randomHour = random.randint(0, 6)
+    #
+    #         randomHour = getHour(array, year, randomDay, randomHour)
+    #
+    #         array[year][randomDay][randomHour] = lessons[randomer].name
+    #         availHours = availHours - 1
 
     # print(array)
     return array
@@ -436,7 +472,8 @@ def runProgramMany(times):
             teachers[key].clear()
 
 
-util.exportPDF(runProgramOnce())
+runProgramOnce()
+#util.exportPDF(runProgramOnce())
 
 
 # lessonsAss = list(lessonsAssigned)
