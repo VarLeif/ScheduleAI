@@ -128,3 +128,9 @@ def readFile(pathname):
     f.close()
 
     return text
+
+def writeFile(pathname, text):
+
+    f = open(pathname, "w+")
+    f.write(text)
+    f.close()

@@ -154,6 +154,7 @@ def exportPDF(array):
 
     htmlList = []
 
+    # export each schedule
     for tmima in range(0, tmimata):
 
         # remove when programAlgorithm() works
@@ -170,9 +171,25 @@ def exportPDF(array):
         df = pd.DataFrame(dfarray, index=hour_axis, columns=day_axis)
         htmlList.append(df.to_html())
 
+    # Creating the html file
+    # START
     breakLines = """\n\n<br>\n\n"""
 
-    html_file = breakLines.join(htmlList)
+    html_file = """<html>
+    <head>
+        <meta name="pdfkit-page-size" content="Legal"/>
+        <meta name="pdfkit-orientation" content="Landscape"/>
+        <title>Schedule</title>
+    </head>"""
+
+    bodyElements = "\t"+breakLines.join(htmlList)
+    bodyElements = bodyElements.replace("\n", "\n\t")
+
+    html_file = html_file + \
+                """\n<body>\n"""+bodyElements + \
+                """\n\n</body>\n</html>"""
+    #END
+    #print(html_file)
 
     options = {
         'page-size': 'A4',
@@ -183,9 +200,8 @@ def exportPDF(array):
     # Need to add header for the html file
     """
     if style == None:
-        pdf.from_file(html_file, ',/output/program.pdf', options=options)
+        pdf.from_string(html_file, ',/output/program.pdf', options=options)
     else:
-        pdf.from_file(html_file, ',/output/program.pdf', options=options, css=style)
-
-    #print(html_file)
+        pdf.from_string(html_file, ',/output/program.pdf', options=options, css='./style/style.css')
     """
+    #print(html_file)
