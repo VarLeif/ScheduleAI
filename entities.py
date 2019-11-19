@@ -90,6 +90,9 @@ class Teacher:
         self.lessonsAssigned=0
         self.settledHours = 0
 
+    def clearSettledHours(self):
+        self.settledHours = 0
+
 
 class Session:
 
@@ -148,7 +151,8 @@ class AssignedLesson:
     def isCompleted(self, lessons):
         return self.assignedHours == lessons[self.lessonCode].hours
 
+
     def getWeight(self, lessons, teachers):
         #e ^ eleftheresWresKathigiti * (wresMathimatos - assignedWresMathimatos)^2)
-        n = lessons[self.lessonCode].hours - self.assignedHours + 1
+        n = lessons[self.lessonCode].hours - self.assignedHours
         return math.exp(teachers[self.teacherCode].getUnsettledHours()) * (n**2)

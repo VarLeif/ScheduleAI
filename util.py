@@ -155,10 +155,12 @@ def exportPDF(array, lessons, teachers):
 
     newArray = np.zeros((len(array), len(array[0]), len(array[0][0])), dtype=object)
 
+
     for z in range(0, len(array)):
         for y in range(0 , len(array[0])):
             for x in range(0, len(array[0][0])):
-                newArray[z][y][x] = lessons[array[z][y][x].lessonCode].name
+                if array[z][y][x].lessonCode != 0:
+                    newArray[z][y][x] = lessons[array[z][y][x].lessonCode].name + " (" + teachers[array[z][y][x].teacherCode].name + ")"
 
     # export each schedule
     for tmima in range(0, tmimata):
