@@ -3,6 +3,7 @@ import random
 import pandas as pd
 import numpy as np
 import os
+import pdfkit as pdf
 
 from entities import Lesson
 
@@ -122,6 +123,9 @@ def initGroups(teachers, lessons, lesson_dictionary_filepath):
 
 def exportPDF(array):
 
+    locale = "gr"
+    style = None
+
     if not os.path.exists('./output'):
         print("\nOutput folder doesn\' exist. Trying to create folder")
         try:
@@ -131,15 +135,24 @@ def exportPDF(array):
         else:
             print("Folder created")
 
-    # Change it to fit Greek schools with a file
-    hour_axis = ['8:00-9:00','9:00-10:00','10:00-11:00',
-              '11:00-12:00','12:00-1:00','1:00-2:00','2:00-3:00']
+    if not os.path.exists('./data/htmlData.json'):
+        hour_axis = ['8:00-9:00', '9:00-10:00', '10:00-11:00',
+                     '11:00-12:00', '12:00-1:00', '1:00-2:00', '2:00-3:00']
 
-    day_axis = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+        day_axis = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+    else:
+        data = parser.readHtmlData(locale)
+        day_axis = data[0]
+        hour_axis = data[1]
+
+    if os.path.exists('./style/style.css'):
+        style = parser.readFile('./style/style.css')
 
     tmimata = array.shape[0]  # tmima
     days = array.shape[1]  # days
     hours = array.shape[2]  # hours
+
+    htmlList = []
 
     for tmima in range(0, tmimata):
 
@@ -155,5 +168,24 @@ def exportPDF(array):
 
         dfarray[ dfarray == 0] = ' '
         df = pd.DataFrame(dfarray, index=hour_axis, columns=day_axis)
-        df.to_html('./output/test'+str(tmima)+'.html')
+        htmlList.append(df.to_html())
 
+    breakLines = """\n\n<br>\n\n"""
+
+    html_file = breakLines.join(htmlList)
+
+    options = {
+        'page-size': 'A4',
+        'quiet': '',
+        "encoding": "UTF-8",
+
+    }
+    # Need to add header for the html file
+    """
+    if style == None:
+        pdf.from_file(html_file, ',/output/program.pdf', options=options)
+    else:
+        pdf.from_file(html_file, ',/output/program.pdf', options=options, css=style)
+
+    #print(html_file)
+    """

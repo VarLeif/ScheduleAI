@@ -99,3 +99,32 @@ def readLessonDict(filepath):
     f.close()
 
     return list
+
+def readHtmlData(locale = None):
+
+    if locale == None:
+        locale = "en"
+
+    days = []
+    hours = []
+
+    with open("./data/htmlData.json", encoding="utf8") as json_file:
+        data = json.load(json_file)
+
+        days = data[locale]['days']
+        hours = data[locale]['hours']
+
+    return [days, hours]
+
+def readFile(pathname):
+
+    f = open(pathname)
+    text = ""
+    line = f.readline()
+
+    while line:
+        text += line
+        line = f.readline()
+    f.close()
+
+    return text
