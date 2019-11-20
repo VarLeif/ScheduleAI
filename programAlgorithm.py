@@ -169,21 +169,30 @@ def getDayHourWeight(timetable, day, hour, chosenLessonAssigned):
 
     #count how many hours the teacher has on that particular day
     teacherDayHour = 0
+    tmimaTotalAssignedHours = 0
+
+    # #calculate how many hours each tmima has already settled on the timetable
+    for i in range(0, 5):
+        for j in range(0,7):
+            if timetable[chosenLessonAssigned.tmimaCode][i][j].lessonCode != 0:
+                tmimaTotalAssignedHours += 1
+
+    #get how many hours teacher has on that day
     for tmima in range(0, sum(amountOfTmimata)):
-        for k in range(0, 6):
+        for k in range(0, 7):
             if timetable[tmima][day][k].teacherCode == chosenLessonAssigned.teacherCode:
                 teacherDayHour = teacherDayHour +1
 
     # if a lesson has 2 hours per week, do not allow more than one hour per day
     if lessons[chosenLessonAssigned.lessonCode].hours == 2:
-        for k in range(0,6):
+        for k in range(0,7):
             if timetable[chosenLessonAssigned.tmimaCode][day][k].lessonCode == chosenLessonAssigned.lessonCode:
                 return 0
 
     # if a lesson has 3 or 4 hours, do not allow more than 2 of these per day
     countHours = 0
     if lessons[chosenLessonAssigned.lessonCode].hours == 3 or lessons[chosenLessonAssigned.lessonCode].hours == 4:
-        for k in range(0,6):
+        for k in range(0,7):
             if timetable[chosenLessonAssigned.tmimaCode][day][k].lessonCode == chosenLessonAssigned.lessonCode:
                 countHours += 1
         if countHours == 2:
@@ -262,14 +271,6 @@ def getDayHourWeight(timetable, day, hour, chosenLessonAssigned):
 
     # 1/hour => 1/1 > 1/2 > 1/3  (1/hour * tmimaAssignedHours) 1/hour * tmimaAssignedHours = 30/32 -> 1 wra = (*30), pithanotita 2h wra (*15), (3h wra *10) 1/7*30
     return heavySchedule/((hour+1)**2)
-
-    #kalipsi kenou? kalipsi 2oro?
-
-    #25 wres
-
-    #2, keno, 2, keno , 1
-
-    #keno, 2, keno, 2, keno
 
 
 def isFinishedState(localLessonsAssigned):
