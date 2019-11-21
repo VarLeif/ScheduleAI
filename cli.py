@@ -1,7 +1,10 @@
+import multiprocessing
 import sys
 import os
 import dataParser as parser
 import util
+import psutil
+import programAlgorithm as algo
 
 lessons = None
 teachers = None
@@ -109,6 +112,14 @@ if len(sys.argv) >= 5:
     #       exit(0)
 
 # Initialization of data
+
+# Read PC and OS physical cores in order to distribute computing if available
+PhysCores = psutil.cpu_count(logical=False)
+noProc = 1
+
+if PhysCores > 2:
+    noProc = PhysCores - 1
+
 # Start
 
 # Grouping by subject-field
@@ -121,4 +132,11 @@ sumLessonsSessions = klassHours[0][2] * amountOfTmimata[0] + klassHours[1][2] * 
 
 # End
 
+# Variables used in programAlgorithm
+klassHours = util.getKlassHours(lessons)
+scheduleAlgo = algo.SchoolSchedule(amountOfTmimata,klassHours,lessons,teachers, groups, lessonSets)
+scheduleAlgo.runProgramOnce()
+
 # Run program algorithm
+
+
