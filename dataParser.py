@@ -113,8 +113,10 @@ def readHtmlData(locale = None):
 
         days = data[locale]['days']
         hours = data[locale]['hours']
+        header = data[locale]['table-header']['header']
+        cll = data[locale]['table-header']['classroom']
 
-    return [days, hours]
+    return [days, hours, header, cll]
 
 def readFile(pathname):
 

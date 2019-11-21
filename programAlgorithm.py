@@ -1,5 +1,4 @@
 import copy
-import random
 import time
 
 import numpy as np
@@ -352,7 +351,7 @@ def programAlgorithm():
         teachers[chosenTeacher.teacherCode].settledHours += 1
 
         #     break
-    util.exportPDF(array, lessons, teachers)
+    util.exportHTML(array, lessons, teachers, amountOfTmimata)
 
     return True
 

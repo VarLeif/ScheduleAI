@@ -4,8 +4,6 @@ import pandas as pd
 import numpy as np
 import os
 
-from entities import Lesson
-
 def getYear(ly):
     if ly == "A" or ly == "Α":
         return 0
@@ -120,7 +118,7 @@ def initGroups(teachers, lessons, lesson_dictionary_filepath):
 
     return [lesson_sets, grouped_teachers]
 
-def exportPDF(array, lessons, teachers):
+def exportHTML(array, lessons, teachers, tmimataArray):
 
     locale = "gr"
     style = None
@@ -139,10 +137,14 @@ def exportPDF(array, lessons, teachers):
                      '11:00-12:00', '12:00-1:00', '1:00-2:00', '2:00-3:00']
 
         day_axis = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+        header = "Classroom"
+        classrooms = ['A','B','C']
     else:
         data = parser.readHtmlData(locale)
         day_axis = data[0]
         hour_axis = data[1]
+        header = data[2]
+        classrooms = data[3]
 
     if os.path.exists('./style/style.css'):
         style = parser.readFile('./style/style.css')
@@ -154,7 +156,6 @@ def exportPDF(array, lessons, teachers):
     htmlList = []
 
     newArray = np.zeros((len(array), len(array[0]), len(array[0][0])), dtype=object)
-
 
     for z in range(0, len(array)):
         for y in range(0 , len(array[0])):
@@ -179,34 +180,52 @@ def exportPDF(array, lessons, teachers):
     # START
     breakLines = """\n\n<br>\n\n"""
 
-    html_file = """<html>
-    <head>
-        <meta name="pdfkit-page-size" content="Legal"/>
-        <meta name="pdfkit-orientation" content="Landscape"/>
-        <title>Schedule</title>
-    </head>"""
+    html_file = ""
+    if not style == None:
+        html_file = """<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="./style.css"> 
+    <title>Schedule</title>
+</head>"""
+        parser.writeFile('output/style.css', style)
+    else:
+        html_file = """<html>
+<head>
+    <title>Schedule</title>
+</head>"""
 
     bodyElements = "\t"+breakLines.join(htmlList)
     bodyElements = bodyElements.replace("\n", "\n\t")
 
+    substr = "<thead>\n"
+    theadlen = len("<thead>\n")
+    start = 0
+
+    # Append A class
+    for i in range(1, tmimataArray[0]+1):
+        index = bodyElements.find(substr, start) + theadlen
+        newInput = """\t\t<tr><th colspan = "6" id="Tmima">""" + header+' '+ classrooms[0] + str(i) + """</th></tr>\n"""
+        bodyElements = bodyElements[:index] + newInput + bodyElements[index:]
+        start = index + len(newInput)
+
+    # Append B class
+    for i in range(1, tmimataArray[1]+1):
+        index = bodyElements.find(substr, start) + theadlen
+        newInput = """\t\t<tr><th colspan = "6" id="Tmima">""" + header+' '+ classrooms[1] + str(i) + """</th></tr>\n"""
+        bodyElements = bodyElements[:index] + newInput + bodyElements[index:]
+        start = index + len(newInput)
+
+    # Append C class
+    for i in range(1, tmimataArray[2]+1):
+        index = bodyElements.find(substr, start) + theadlen
+        newInput = """\t\t<tr><th colspan = "6" id="Tmima">""" + header+' '+ classrooms[2] + str(i) + """</th></tr>\n"""
+        bodyElements = bodyElements[:index] + newInput + bodyElements[index:]
+        start = index + len(newInput)
+
+    html_file2 = html_file
+
     html_file = html_file + \
                 """\n<body>\n"""+bodyElements + \
                 """\n\n</body>\n</html>"""
-    #END
-    #print(html_file)
 
-    options = {
-        'page-size': 'A4',
-        'quiet': '',
-        "encoding": "UTF-8",
-
-    }
-    # Need to add header for the html file
-    """
-    if style == None:
-        pdf.from_string(html_file, ',/output/program.pdf', options=options)
-    else:
-        pdf.from_string(html_file, ',/output/program.pdf', options=options, css='./style/style.css')
-    """
-    #print(html_file)
     parser.writeFile('output/schedule.html', html_file)

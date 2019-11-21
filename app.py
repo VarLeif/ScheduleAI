@@ -2,23 +2,13 @@
 from entities import *
 # Parser used to load and save data
 import dataParser
-# Utility functions to manipulate our data
-import util
-from customDataStructure import State, Node
+
 
 lessons_filepath = './data/lessons.json'
 teachers_filepath = './data/teachers.json'
 teachers = dataParser.readTeacherJSON(teachers_filepath)
 lessons = dataParser.readLessonJSON(lessons_filepath)
 running = False #show instructions? :D
-
-""" 
-    */ Testing duplicate functions
-print('*** Test')
-print("Possible duplicate lessons:\n", util.checkDuplicateLesson(lessons), "\n")
-print("Possible duplicate teachers:\n", util.checkDuplicateTeacher(teachers), "\n")
-print('End of test ***')
-"""
 
 def printInstructions():
     print("**************************************")
@@ -76,20 +66,4 @@ while running:
     elif s == 8:
         running = False
         break
-
-
-x = State(5)
-x.setXYZ(0,2,3,lessons[1])
-x.setXYZ(0,1,2, lessons[2])
-
-isEquals = x.specificOut(0,2,3).classYear == x.specificOut(0,1,2).classYear
-
-# start = Node(x, "None")
-# start.addChild(Node(x, start))
-# start.addChild(Node(x, start))
-# print(start)
-# print(start.children[0].parent)
-# print(start.children)
-#
-# print(start.children)
 

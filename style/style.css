@@ -28,3 +28,11 @@ tr, th {
 thead {
     color: rgb(37, 104, 92);
 }
+
+#Tmima {
+    border: 0;
+    padding: 4px;
+    font-size: xx-large;
+    font-weight: bolder;
+    color: rgb(24, 11, 100)
+}
