@@ -1,5 +1,4 @@
 import math
-from math import factorial
 # Entities used for the production of the schedule
 
 class Lesson:
@@ -156,3 +155,10 @@ class AssignedLesson:
         #e ^ eleftheresWresKathigiti * (wresMathimatos - assignedWresMathimatos)^2)
         n = lessons[self.lessonCode].hours - self.assignedHours
         return math.exp(teachers[self.teacherCode].getUnsettledHours()) * (n**2)
+
+class WeightVariables:
+
+    def __init__(self, hx, prelude, interlude):
+        self.hx = hx
+        self.prelude = prelude
+        self.interlude = interlude

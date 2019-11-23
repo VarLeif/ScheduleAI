@@ -126,7 +126,7 @@ if PhysCores > 2:
 initGroupLessonSet = util.initGroups(teachers, lessons, './data/dictionary.txt')
 groups = initGroupLessonSet[1]
 lessonSets = initGroupLessonSet[0]
-
+weightVars = parser.readHeuristic('./data/heuristic.json')
 klassHours = util.getKlassHours(lessons)
 sumLessonsSessions = klassHours[0][2] * amountOfTmimata[0] + klassHours[1][2] * amountOfTmimata[1] + klassHours[2][2] * amountOfTmimata[2]
 
@@ -134,7 +134,7 @@ sumLessonsSessions = klassHours[0][2] * amountOfTmimata[0] + klassHours[1][2] * 
 
 # Variables used in programAlgorithm
 klassHours = util.getKlassHours(lessons)
-scheduleAlgo = algo.SchoolSchedule(amountOfTmimata,klassHours,lessons,teachers, groups, lessonSets)
+scheduleAlgo = algo.SchoolSchedule(amountOfTmimata,klassHours,lessons,teachers, groups, lessonSets, weightVars.hx, weightVars.prelude, weightVars.interlude)
 scheduleAlgo.runProgramOnce()
 
 # Run program algorithm

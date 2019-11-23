@@ -8,7 +8,7 @@ import util
 
 class SchoolSchedule:
 
-    def __init__(self, amountOfTmimata, klassHours, lessons, teachers, groups, lessonSets):
+    def __init__(self, amountOfTmimata, klassHours, lessons, teachers, groups, lessonSets, hx, prelude, interlude):
         self.amountOfTmimata = amountOfTmimata
         self.klassHours = klassHours
         self.lessons = lessons
@@ -17,6 +17,13 @@ class SchoolSchedule:
         self.lessonsAssigned = np.zeros(self.sumLessonsSessions, dtype=object)
         self.groups = groups
         self.lessonSets = lessonSets
+        self.hx = hx    # weight variable which affects how much to choose an hour
+        self.prelude = prelude  # hour used before assigning to the last remaining hours
+        self.interlude = interlude
+        self.totalHoursAssigned = 0
+        self.totalHours = klassHours[0][1] * amountOfTmimata[0] + klassHours[1][1] * amountOfTmimata[1] + klassHours[2][1] * amountOfTmimata[2]
+        self.ScheduleArray = None
+        print("Total hours of whole school are :", self.totalHours)
 
     # initialize array that holds lesson/teacher assignments! :)
     def populateLessonsAsigned(self):
@@ -176,6 +183,10 @@ class SchoolSchedule:
         teacherDayHour = 0
         tmimaTotalAssignedHours = 0
 
+        if (self.totalHoursAssigned / self.totalHours) < self.interlude:
+            if hour > self.prelude:# and (self.totalHoursAssigned / self.totalHours >= self.interlude):
+                return 0
+
         # #calculate how many hours each tmima has already settled on the timetable
         for i in range(0, 5):
             for j in range(0,7):
@@ -275,7 +286,8 @@ class SchoolSchedule:
         heavySchedule = teacherHoursAssigned * (math.log(teacherHoursAssigned) +1) / (teacherDayHour+1)
 
         # 1/hour => 1/1 > 1/2 > 1/3  (1/hour * tmimaAssignedHours) 1/hour * tmimaAssignedHours = 30/32 -> 1 wra = (*30), pithanotita 2h wra (*15), (3h wra *10) 1/7*30
-        return heavySchedule/((hour+1)**2)
+        return heavySchedule/(hour+1)**self.hx
+        #return heavySchedule/((hour+1)**2)
 
 
     def isFinishedState(self, localLessonsAssigned):
@@ -285,6 +297,22 @@ class SchoolSchedule:
                 return False
 
         return True
+
+    def hasSpaces(self, NumArray):
+
+        f_empty = lambda t, d, h, numpyArray: numpyArray[t][d][h].lessonCode == 0 and numpyArray[t][d][h].teacherCode == 0
+
+        dimensions = NumArray.shape
+        emptyInBetween = 0
+        for tmima in range(0, dimensions[0]):
+            for day in range(0, dimensions[1]):
+                for hour in range(0, dimensions[2]):
+                    if f_empty(tmima,day,hour,NumArray) and hour+1 < dimensions[2]:
+                        if not f_empty(tmima,day,hour+1,NumArray):
+                            emptyInBetween += 1
+
+        return emptyInBetween
+
 
     def getTeachersFinalState(self, finalTimeTable):
 
@@ -315,7 +343,6 @@ class SchoolSchedule:
         array = np.zeros((sum(self.amountOfTmimata), 5, 7), dtype=object)
         array.fill(emptyLesson)
 
-
         while not self.isFinishedState(localLessonsAssigned):
 
             #CALCULATE WEIGHTS FOR EACH ELEMENT IN localLessonsAssigned
@@ -342,7 +369,11 @@ class SchoolSchedule:
 
             #adieksodo: restart algorithm
             if totalWeight==0:
-                return False
+                self.prelude += 1
+                if self.prelude >= 7:
+                    return False
+                else:
+                    continue
 
             weightDayHours = np.divide(weightDayHours, totalWeight)
 
@@ -355,9 +386,11 @@ class SchoolSchedule:
             array[chosenTeacher.tmimaCode][chosenDay][chosenHour] = chosenTeacher
             chosenTeacher.assignedHours += 1
             self.teachers[chosenTeacher.teacherCode].settledHours += 1
+            self.totalHoursAssigned += 1
 
             #     break
-        util.exportHTML(array, self.lessons, self.teachers, self.amountOfTmimata)
+
+        self.ScheduleArray = array
 
         return True
 
@@ -373,7 +406,7 @@ class SchoolSchedule:
 
     # from here :)
     def runProgramOnce(self):
-
+        startingPrelude = self.prelude
         start_time = time.time()
         self.setLessonsTeachers()
         self.countLessonsTotalHours()
@@ -389,17 +422,32 @@ class SchoolSchedule:
             self.populateLessonsAsigned()
             self.assignSingleLessonTeachers()
 
-
+        counter = 0
         #run algorithm! :
+        maxGaps = 3
+        gaps = 0
         while True:
             for key in self.teachers:
                 self.teachers[key].clearSettledHours()
 
+            self.totalHoursAssigned = 0
             shouldRun = self.programAlgorithm()
             if shouldRun:
-                break
+                gaps = self.hasSpaces(self.ScheduleArray)
+                if gaps <= maxGaps:
+                    break
+            else:
+                #print("failed try: ", counter)
+                self.prelude = startingPrelude
+                counter += 1
 
+        util.exportHTML(self.ScheduleArray, self.lessons, self.teachers, self.amountOfTmimata)
         print("--- %s seconds ---" % (time.time() - start_time))
+        print("--- %s gaps / %s limit of gaps" %(gaps,maxGaps))
+        print("--- Interlude value: %s\t\t Starting prelude value: %s and Final Prelude val: %s\t\t Hx value: %s" \
+              %(self.interlude, startingPrelude, self.prelude, self.hx))
+        #print("--- %s failed attempts " %counter)
+
 
 
     def runProgramMany(self, times):
@@ -421,6 +469,7 @@ class SchoolSchedule:
 
             # run algorithm! :
             while True:
+                self.totalHoursAssigned = 0
                 for key in self.teachers:
                     self.teachers[key].clearSettledHours()
 
@@ -436,4 +485,4 @@ class SchoolSchedule:
 
 
         print("I ran successfully, ", times, " out of ", totalCount, " attempts.")
-       # print("--- %s seconds ---" % (time.time() - start_time))
+        #print("--- %s seconds ---" % (time.time() - start_time))
