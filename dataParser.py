@@ -136,3 +136,27 @@ def writeFile(pathname, text):
     f = open(pathname, "w+")
     f.write(text)
     f.close()
+
+def readHeuristic(pathname):
+
+    wdata = 2
+
+    with open(pathname, encoding="utf8") as json_file:
+        data = json.load(json_file)
+        wdata = WeightVariables(data['hx'], data['prelude'], data['interlude'])
+
+    return wdata
+
+def saveHeuristic(filepath, weightVar):
+
+    data = {}
+    data['hx'] = weightVar.hx
+    data['prelude'] = weightVar.prelude
+    data['interlude'] = weightVar.interlude
+
+    with open(filepath, "w", encoding="utf-8", buffering=512) as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+        f.flush()
+        os.fsync(f.fileno())
+
+    return True
