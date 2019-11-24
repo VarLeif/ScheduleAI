@@ -25,6 +25,7 @@ def readLessonDict(filepath):
 
     return list
 
+
 def readLessonJSON(filepath):
     dict = {}
     with open(filepath, encoding="utf-8") as json_file:
@@ -100,8 +101,8 @@ def readLessonDict(filepath):
 
     return list
 
-def readHtmlData(locale = None):
 
+def readHtmlData(locale=None):
     if locale == None:
         locale = "en"
 
@@ -118,8 +119,8 @@ def readHtmlData(locale = None):
 
     return [days, hours, header, cll]
 
-def readFile(pathname):
 
+def readFile(pathname):
     f = open(pathname)
     text = ""
     line = f.readline()
@@ -131,14 +132,14 @@ def readFile(pathname):
 
     return text
 
-def writeFile(pathname, text):
 
+def writeFile(pathname, text):
     f = open(pathname, "w+")
     f.write(text)
     f.close()
 
-def readHeuristic(pathname):
 
+def readHeuristic(pathname):
     wdata = 2
 
     with open(pathname, encoding="utf8") as json_file:
@@ -147,8 +148,8 @@ def readHeuristic(pathname):
 
     return wdata
 
-def saveHeuristic(filepath, weightVar):
 
+def saveHeuristic(filepath, weightVar):
     data = {}
     data['hx'] = weightVar.hx
     data['prelude'] = weightVar.prelude

@@ -127,9 +127,6 @@ sumLessonsSessions = klassHours[0][2] * amountOfTmimata[0] + klassHours[1][2] * 
 klassHours = util.getKlassHours(lessons)
 
 
-# scheduleAlgo = algo.SchoolSchedule(amountOfTmimata,klassHours,lessons,teachers, groups, lessonSets, weightVars.hx, weightVars.prelude, weightVars.interlude)
-# scheduleAlgo.runProgramOnce()
-
 def f(i, solved):
     scheduleAlgo = algo.SchoolSchedule(amountOfTmimata, klassHours, lessons, teachers, groups, lessonSets,
                                        weightVars.hx, weightVars.prelude, weightVars.interlude)
@@ -152,5 +149,5 @@ if __name__ == '__main__':
     for i in range(0, noProc):
         procLis[i].terminate()
         procLis[i].join()
-    print('I got a result! Your result is in the folder', outputFilepath, 'schedule.html')
+    print('I got a result! Your result is in the folder', outputFilepath)
     # Run program algorithm
