@@ -163,18 +163,6 @@ class SchoolSchedule:
 
         return randomHour
 
-    def testWeights(self):
-        wghtDt = np.dtype([('lesson-code', int), ('tmima-code', int), ('weight', float)])
-
-        weightElements = np.zeros(len(self.lessonsAssigned), dtype=wghtDt)
-        for x in range(0, len(self.lessonsAssigned)):
-            weightElements[x] = (self.lessonsAssigned[x].lessonCode), (self.lessonsAssigned[x].tmimaCode), (
-                self.lessonsAssigned[x].getWeight(self.lessons, self.teachers))
-
-        weightElements = np.sort(weightElements, order='weight')
-        weightElements = np.flip(weightElements)
-
-        print(weightElements)
 
     def getDayHourWeight(self, timetable, day, hour, chosenLessonAssigned, teachers):
 
