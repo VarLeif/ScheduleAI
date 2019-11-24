@@ -23,7 +23,7 @@ class SchoolSchedule:
         self.totalHoursAssigned = 0
         self.totalHours = klassHours[0][1] * amountOfTmimata[0] + klassHours[1][1] * amountOfTmimata[1] + klassHours[2][1] * amountOfTmimata[2]
         self.ScheduleArray = None
-        print("Total hours of whole school are :", self.totalHours)
+        print("Process spawned")
 
     # initialize array that holds lesson/teacher assignments! :)
     def populateLessonsAsigned(self):
@@ -177,7 +177,7 @@ class SchoolSchedule:
 
         print(weightElements)
 
-    def getDayHourWeight(self, timetable, day, hour, chosenLessonAssigned):
+    def getDayHourWeight(self, timetable, day, hour, chosenLessonAssigned, teachers):
 
         #count how many hours the teacher has on that particular day
         teacherDayHour = 0
@@ -215,7 +215,7 @@ class SchoolSchedule:
                 return 0
 
         #CHECK if teacher's limit isn't exceeded on that particular day.
-        if teacherDayHour + 1 > self.teachers[chosenLessonAssigned.teacherCode].maxHourWeek:
+        if teacherDayHour + 1 > teachers[chosenLessonAssigned.teacherCode].maxHourDay:
             return 0
 
         # an to tmima exei allo mathima ekein tin wra
@@ -282,7 +282,7 @@ class SchoolSchedule:
                 return 0
 
         #n(logn) sunartisi
-        teacherHoursAssigned = self.teachers[chosenLessonAssigned.teacherCode].hoursAssigned
+        teacherHoursAssigned = teachers[chosenLessonAssigned.teacherCode].hoursAssigned
         heavySchedule = teacherHoursAssigned * (math.log(teacherHoursAssigned) +1) / (teacherDayHour+1)
 
         # 1/hour => 1/1 > 1/2 > 1/3  (1/hour * tmimaAssignedHours) 1/hour * tmimaAssignedHours = 30/32 -> 1 wra = (*30), pithanotita 2h wra (*15), (3h wra *10) 1/7*30
@@ -314,18 +314,49 @@ class SchoolSchedule:
         return emptyInBetween
 
 
-    def getTeachersFinalState(self, finalTimeTable):
+    def puzzleTimetable(self):
+        f_empty = lambda t, d, h, numpyArray: numpyArray[t][d][h].lessonCode == 0 and numpyArray[t][d][h].teacherCode == 0
 
-        perdikakiHours = [0,0,0,0,0]
+        dimensions = self.ScheduleArray.shape
 
-        for i in range(0, len(finalTimeTable)):
-            for j in range(0, len(finalTimeTable[0])):
-                for b in range(0, len(finalTimeTable[0][0])):
-                    if finalTimeTable[i][j][b].teacherCode == self.teachers[1].code:
-                        perdikakiHours[j] += 1
+        emptyTmima = -1
+        emptyDay = -1
+        emptyHour = -1
+        emptyInBetween = 0
+        for tmima in range(0, dimensions[0]):
+            for day in range(0, dimensions[1]):
+                for hour in range(0, dimensions[2]):
+                    if f_empty(tmima,day,hour,self.ScheduleArray) and hour+1 < dimensions[2]:
+                        if not f_empty(tmima,day,hour+1,self.ScheduleArray):
+                            emptyTmima = tmima
+                            emptyDay = day
+                            emptyHour = hour
 
-        print(self.teachers[1].hoursAssigned)
-        print(perdikakiHours)
+        # if zero gaps
+        if emptyTmima == -1:
+            return
+
+        for day in range(0, dimensions[1]):
+            if self.ScheduleArray[emptyTmima][day][6].teacherCode != 0:
+
+                assignedLesson = copy.deepcopy(self.ScheduleArray[emptyTmima][day][6])
+                teachersCopy = copy.deepcopy(self.teachers)
+                if day == emptyDay:
+                    teachersCopy[self.ScheduleArray[emptyTmima][day][6].teacherCode].maxHourDay -= 1
+
+                teachersCopy[self.ScheduleArray[emptyTmima][day][6].teacherCode].settledHours -= 1
+
+                assignedLesson.assignedHours -= 1
+                weight = self.getDayHourWeight(self.ScheduleArray, emptyDay, emptyHour, assignedLesson, teachersCopy)
+
+                if weight > 0:
+                    assignedLesson.assignedHours +=1
+                    self.ScheduleArray[emptyTmima][day][6] = AssignedLesson(0,0,0)
+                    self.ScheduleArray[emptyTmima][emptyDay][emptyHour] = assignedLesson
+                    #break
+                    return True
+
+        return False
 
 
     def programAlgorithm(self):
@@ -363,7 +394,7 @@ class SchoolSchedule:
 
             for i in range(0, 5):
                 for j in range(0, 7):
-                    weightDayHours[7*i+j] = self.getDayHourWeight(array, i, j, chosenTeacher)
+                    weightDayHours[7*i+j] = self.getDayHourWeight(array, i, j, chosenTeacher, self.teachers)
 
             totalWeight = np.sum(weightDayHours)
 
@@ -424,7 +455,7 @@ class SchoolSchedule:
 
         counter = 0
         #run algorithm! :
-        maxGaps = 0
+        maxGaps = 1
         gaps = 0
         while True:
             for key in self.teachers:
@@ -435,18 +466,14 @@ class SchoolSchedule:
             if shouldRun:
                 gaps = self.hasSpaces(self.ScheduleArray)
                 if gaps <= maxGaps:
-                    break
+                    if self.puzzleTimetable():
+                        break
             else:
                 #print("failed try: ", counter)
                 self.prelude = startingPrelude
                 counter += 1
 
-        util.exportHTML(self.ScheduleArray, self.lessons, self.teachers, self.amountOfTmimata)
         print("--- %s seconds ---" % (time.time() - start_time))
-        print("--- %s gaps / %s limit of gaps" %(gaps,maxGaps))
-        print("--- Interlude value: %s\t\t Starting prelude value: %s and Final Prelude val: %s\t\t Hx value: %s" \
-              %(self.interlude, startingPrelude, self.prelude, self.hx))
-        #print("--- %s failed attempts " %counter)
         return self.ScheduleArray
 
 
