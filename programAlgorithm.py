@@ -424,7 +424,7 @@ class SchoolSchedule:
 
         counter = 0
         #run algorithm! :
-        maxGaps = 3
+        maxGaps = 0
         gaps = 0
         while True:
             for key in self.teachers:
@@ -447,6 +447,7 @@ class SchoolSchedule:
         print("--- Interlude value: %s\t\t Starting prelude value: %s and Final Prelude val: %s\t\t Hx value: %s" \
               %(self.interlude, startingPrelude, self.prelude, self.hx))
         #print("--- %s failed attempts " %counter)
+        return self.ScheduleArray
 
 
 
